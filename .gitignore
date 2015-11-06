@@ -1,0 +1,7 @@
+
+#ignore *.a and *.o files
+*.[oa]
+
+#ignore *.exe files
+*.exe
+
