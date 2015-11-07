@@ -1,0 +1,46 @@
+#include<iostream>
+
+using namespace std;
+
+//ensure the inside calculation also do not exceed the int 
+
+int least ;
+
+void LCM(int a,int b)
+{
+	int max = (a-b>0)?a:b;
+	int min =(a-b>0)?b:a;
+
+	for(int i=max;;)  //use i<=a*b will WA ,since it is possible that it will exceed the int type.
+	{
+		if(i%min ==0)//it is the LCM
+		{
+			least =i;
+			break;
+		}
+		i+=max;
+	}
+}
+
+
+int main()
+{
+	int n;
+	cin>>n;
+	for(int i=0;i<n;i++)
+	{
+		int m;
+		cin>>m;
+		int ans;
+		cin>>ans;
+		least =ans;
+		for(int j=1;j<m;j++)
+		{
+			cin>>ans;
+			LCM(least,ans);
+		}
+		cout<<least<<endl;
+	}
+	
+	return 0;
+}
