@@ -5,3 +5,5 @@
 #ignore *.exe files
 *.exe
 
+#ignore *.out files
+*.out
