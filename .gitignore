@@ -1,3 +1,5 @@
+#ignore backup files and ~files
+*~
 
 #ignore *.a and *.o files
 *.[oa]
