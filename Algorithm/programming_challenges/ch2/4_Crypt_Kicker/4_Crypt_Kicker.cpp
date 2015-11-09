@@ -1,10 +1,10 @@
-#include<iostream>
+/*#include<iostream>
 #include<cstdio>
 #include<cstring>
 #include<string>
 #include<vector>
 #include<sstream>
-
+#include<algorithm>
 
 using namespace std;
 
@@ -59,13 +59,13 @@ bool cmpstr(string a, string b){
 	return a.length()>b.length();
 }
 
-bool dceipher(int pos){
+bool decipher(int pos){
 	if(pos==wordLen)
 		return true;
 		
 	string cipherTmp=cipher;
 	string tryTmp=trys;
-	int len=words[pos].length-1;
+	int len=words[pos].length()-1;
 	for(int i=0;i<dict[len].size();i++){
 		bool ok=true;
 		if(caseMatch(dict[len][i],words[pos])){
@@ -127,13 +127,13 @@ int main(){
 				words.push_back(tmp);
 		}
 		wordLen=words.size();
-		sort(words,begin(),words.end(),cmpstr);
+		sort(words.begin(),words.end(),cmpstr);
 		
 		for(int i=0;i<26;i++){
 			cipher+='*';
 			trys+='0';
 		}
-		dicipher(0);
+		decipher(0);
 		for(int i=0;i<line.length();i++){
 			if(line[i]!=' ')
 				cout<<cipher[line[i]-'a'];
@@ -158,3 +158,6 @@ int main(){
 }
 
 
+
+
+*/
