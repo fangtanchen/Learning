@@ -1,10 +1,10 @@
-#include<iostream>
+/*#include<iostream>
 #include<cstdio>
 #include<cstring>
 #include<string>
 #include<vector>
 #include<sstream>
-
+#include<algorithm>
 
 using namespace std;
 
@@ -59,7 +59,7 @@ bool cmpstr(string a, string b){
 	return a.length()>b.length();
 }
 
-bool dceipher(int pos){
+bool decipher(int pos){
 	if(pos==wordLen)
 		return true;
 		
@@ -133,7 +133,7 @@ int main(){
 			cipher+='*';
 			trys+='0';
 		}
-		dicipher(0);
+		decipher(0);
 		for(int i=0;i<line.length();i++){
 			if(line[i]!=' ')
 				cout<<cipher[line[i]-'a'];
@@ -158,3 +158,6 @@ int main(){
 }
 
 
+
+
+*/
