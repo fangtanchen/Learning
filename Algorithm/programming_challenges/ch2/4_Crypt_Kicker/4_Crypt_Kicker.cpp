@@ -65,7 +65,7 @@ bool dceipher(int pos){
 		
 	string cipherTmp=cipher;
 	string tryTmp=trys;
-	int len=words[pos].length-1;
+	int len=words[pos].length()-1;
 	for(int i=0;i<dict[len].size();i++){
 		bool ok=true;
 		if(caseMatch(dict[len][i],words[pos])){
@@ -84,7 +84,7 @@ bool dceipher(int pos){
 				}
 			}
 			if(ok){
-				if(decipher(pos+1))
+				if( decipher(pos+1))
 					return true;
 			}
 		}
@@ -127,7 +127,7 @@ int main(){
 				words.push_back(tmp);
 		}
 		wordLen=words.size();
-		sort(words,begin(),words.end(),cmpstr);
+		sort(words.begin(),words.end(),cmpstr);
 		
 		for(int i=0;i<26;i++){
 			cipher+='*';
