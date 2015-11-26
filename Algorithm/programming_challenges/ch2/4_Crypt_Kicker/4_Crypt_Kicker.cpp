@@ -1,4 +1,4 @@
-/*#include<iostream>
+#include<iostream>
 #include<cstdio>
 #include<cstring>
 #include<string>
@@ -152,6 +152,7 @@ int main(){
 #ifdef ONLINE_JUDGE
 	fclose(stdin);
 	fclose(stdout);
+	system("out.txt");
 #endif
 
 	return 0;
@@ -160,4 +161,4 @@ int main(){
 
 
 
-*/
+
