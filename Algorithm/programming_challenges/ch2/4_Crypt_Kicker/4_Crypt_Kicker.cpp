@@ -84,7 +84,7 @@ bool decipher(int pos){
 				}
 			}
 			if(ok){
-				if(decipher(pos+1))
+				if( decipher(pos+1))
 					return true;
 			}
 		}
