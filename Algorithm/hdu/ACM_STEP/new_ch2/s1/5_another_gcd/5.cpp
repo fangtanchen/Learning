@@ -32,22 +32,13 @@ int main(){
 		int a,b,c,p;
 		scanf("%d%d",&a,&c);
 		int t1=a/c;
-		if(t1==1){
-			printf("%d\n",2*c);
-			continue;
-		}
+		
 		for(int i=2;;i++){
-			if(i<t1){
-				if(t1%i){
-					b=c*i;
-					break;
-				}
-			}
-			else{
-				if(i%t1){
-					b=c*i;
-					break;
-				}
+			if(i==t1)continue;
+			if(1==gcd(i,t1))
+			{
+				b=i*c;
+				break;
 			}
 		}
 		printf("%d\n",b);
