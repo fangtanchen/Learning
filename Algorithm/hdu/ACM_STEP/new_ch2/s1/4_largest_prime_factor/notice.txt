@@ -1,0 +1,4 @@
+- using scanf\printf instead of cin\cout for efficiency
+- using scanf("%d",&n)!=EOF to deal with the End of Input
+
+Then you won't TLE.
