@@ -4,8 +4,8 @@
 //#include<vector>
 #include<algorithm>
 
-#define U_DEBUG
-#define L_JUDGE
+//#define U_DEBUG
+//#define L_JUDGE
 
 #ifdef L_JUDGE
 #pragma warning(disable:4996)
@@ -18,6 +18,12 @@ int main(){
 		freopen("in.txt","r",stdin);
 		freopen("out.txt","w",stdout);
 	#endif
+	
+	int f[100];
+	int n;
+	while(scanf("%d",&n)!=EOF){
+		printf("%d\n",(n*n*n+5*n)/6+1);
+	}
 
 	#ifdef L_JUDGE
 		fclose(stdin);

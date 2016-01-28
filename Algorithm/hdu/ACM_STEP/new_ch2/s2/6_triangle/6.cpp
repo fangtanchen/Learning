@@ -4,8 +4,8 @@
 //#include<vector>
 #include<algorithm>
 
-#define U_DEBUG
-#define L_JUDGE
+//#define U_DEBUG
+//#define L_JUDGE
 
 #ifdef L_JUDGE
 #pragma warning(disable:4996)
@@ -18,7 +18,13 @@ int main(){
 		freopen("in.txt","r",stdin);
 		freopen("out.txt","w",stdout);
 	#endif
-
+	int T;
+	cin>>T;
+	while(T--){
+		int n;
+		scanf("%d",&n);
+		printf("%d\n",(3*n*(n-1))+2);
+	}
 	#ifdef L_JUDGE
 		fclose(stdin);
 		fclose(stdout);
