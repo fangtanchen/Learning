@@ -18,6 +18,13 @@ int main(){
 		freopen("in.txt","r",stdin);
 		freopen("out.txt","w",stdout);
 	#endif
+	
+	int f[200];
+	char str[10];
+	int n;
+	while(EOF!=scanf("%s %d",str,&n)){
+		
+	}
 
 	#ifdef L_JUDGE
 		fclose(stdin);
