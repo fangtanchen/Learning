@@ -18,11 +18,12 @@ class CEquip{
 	public:
 		int A;
 		int B;
+		int d;
 };
 
 int cmp(CEquip x, CEquip y){
-	if(x.B>y.B)return true;
-	else if(x.B==y.B){
+	if(x.d>y.d)return true;
+	else if(x.d==y.d){
 		if(x.A<y.A)return true;
 		else return false;
 	}else{
@@ -44,6 +45,7 @@ int main(){
 		cin>>V>>N;
 		for(int i=0;i<N;i++){
 			cin>>equips[i].A>>equips[i].B;
+			equips[i].d=equips[i].B-equips[i].A;
 		}
 		sort(equips,equips+N,cmp);
 
@@ -54,8 +56,7 @@ for(int i=0;i<N;i++){
 #endif
 
 		for(int i=0;i<N;i++){
-			if(V<equips[i].B){
-				V=-100;
+
 				break;
 			}else{
 				V=V-equips[i].A;
