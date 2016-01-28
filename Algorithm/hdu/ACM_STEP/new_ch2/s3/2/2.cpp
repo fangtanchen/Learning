@@ -4,8 +4,8 @@
 //#include<vector>
 #include<algorithm>
 
-#define U_DEBUG
-#define L_JUDGE
+//#define U_DEBUG
+//#define L_JUDGE
 
 #ifdef L_JUDGE
 #pragma warning(disable:4996)
@@ -41,6 +41,9 @@ int main(){
 				num[1][4 - i + flag] = num[0][4 - i + flag] = str[i] - '0';
 			}
 		}
+		int former=pf;
+		int latter=5-pf;
+		latter=latter*n;
 
 #ifdef U_DEBUG
 		cout << "num array:" << endl;
@@ -106,11 +109,31 @@ int main(){
 				dr = 3 - dr;
 			//}
 		}
-
+#ifdef U_DEBUG
 		for (int i = len[sr]-1; i >= 0; i--){
 			printf("%d", num[sr][i]);
 		}
 		printf("\n\n\n");
+#endif
+		int start1=len[sr]-1;
+		for(;num[sr][start1]==0;start1--)
+		  ;
+		int end1=0;
+		for(;num[sr][end1]==0;end1++)
+		  ;
+
+		for(int i=start1;i>=latter;i--){
+			printf("%d",num[sr][i]);
+		}
+		
+		if(latter>end1){
+			printf(".");
+			for(int i=latter-1;i>=end1;i--){
+				printf("%d",num[sr][i]);
+			}
+		}
+		printf("\n");
+				
 	}
 
 #ifdef L_JUDGE
