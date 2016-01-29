@@ -5,7 +5,7 @@
 #include<algorithm>
 
 //#define U_DEBUG
-//#define L_JUDGE
+#define L_JUDGE
 
 #ifdef L_JUDGE
 #pragma warning(disable:4996)
@@ -26,11 +26,16 @@ int main(){
 #ifdef U_DEBUG
 		printf("%s--%d\n", str, n);
 #endif
-
+		
+		if(0==n){
+			printf("1\n");
+			continue;
+		}
+		
 		int num[3][200];
 		int len[3] = { 5, 5, 1 };
 
-		int pf = 0;
+		int pf = 6;
 		int flag = 0;
 		for (int i = 0; i<6; i++){
 			if (str[i] == '.'){
@@ -41,10 +46,20 @@ int main(){
 				num[1][4 - i + flag] = num[0][4 - i + flag] = str[i] - '0';
 			}
 		}
+		
+		
+		int pte=0;
+		for(int i=0;i<5;i++){
+			pte=pte+num[0][i];
+		}
+		
 		int former=pf;
 		int latter=5-pf;
+		if(pf==6){
+			latter=0;
+		}
 		latter=latter*n;
-
+		
 #ifdef U_DEBUG
 		cout << "num array:" << endl;
 		for (int i = 4; i >= 0; i--){
@@ -72,8 +87,10 @@ int main(){
 						c = temp / 10;
 						di++;
 					}
-					if (c){
-						num[dr][di] = c;
+					while (c){
+						int temp== num[dr][di]+c;
+						num[dr][di] =temp%10;
+						c=temp/10;
 						di++;
 					}
 					if (di>len[dr])len[dr] = di;
@@ -98,9 +115,13 @@ int main(){
 						c = temp / 10;
 						di++;
 					}
-					if (c){
-						num[dr][di] = c;
+					while(c){
+						int temp=num[dr][di]+c;
+						num[dr][di] = temp%10;
+						c=temp/10;
 						di++;
+						/*num[dr][di]=c;
+						di++;*/
 					}
 					if (len[dr]<di)len[dr] = di;
 				}
@@ -121,6 +142,7 @@ int main(){
 		int end1=0;
 		for(;num[sr][end1]==0;end1++)
 		  ;
+		
 
 		for(int i=start1;i>=latter;i--){
 			printf("%d",num[sr][i]);
