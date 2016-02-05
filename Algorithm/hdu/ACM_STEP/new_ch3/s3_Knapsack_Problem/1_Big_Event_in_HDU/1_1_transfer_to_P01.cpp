@@ -5,7 +5,7 @@
 #include<algorithm>
 #include<cmath>
 
-#define U_DEBUG
+//#define U_DEBUG
 #define L_JUDGE
 
 #ifdef L_JUDGE
@@ -32,19 +32,9 @@ int main(){
 		for(int i=0;i<N;i++){
 			scanf("%d%d",&temp_value, &temp_num);
 			sum=sum+temp_value*temp_num;
-			int pp=log2(temp_num);
-			while(1){
-				int tt=pow(2,pp);
-#ifdef U_DEBUG
-	printf("%d ",tt);
-#endif
-				value[value_len]=tt*temp_value;
+			while(temp_num--){
+				value[value_len]=temp_value;
 				value_len++;
-				temp_num=temp_num-tt;
-				if(0==temp_num){
-					break;
-				}
-				pp=log2(temp_num);
 			}
 #ifdef U_DEBUG
 	printf("\n\n\n\n");
