@@ -25,10 +25,18 @@ int main(){
 	while(EOF!=scanf("%d%d%d%d%d%d",&n[1],&n[2],&n[3],&n[4],&n[5],&n[6]),
 				n[1]||n[2]||n[3]||n[4]||n[5]||n[6]){
 		printf("Collection #%d:\n",casei++);
+		
+		for(int i=1;i<=6;i++){
+			n[i]=n[i]%100;
+		}
 
 		int sum=0;
 		for(int i=1;i<=6;i++){
 			sum=sum+i*n[i];
+		}
+		if(sum%2){
+			printf("Can't be divided.\n\n");	
+			continue;
 		}
 		int half=sum/2;
 		memset(dp,0,sizeof(dp));
