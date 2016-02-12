@@ -4,8 +4,8 @@
 //#include<vector>
 #include<algorithm>
 
-#define U_DEBUG
-#define L_JUDGE
+//#define U_DEBUG
+//#define L_JUDGE
 
 #ifdef L_JUDGE
 #pragma warning(disable:4996)
@@ -49,7 +49,7 @@ int main(){
 	}
 	mi--;
 	
-	sort(mice,mice+mi,cmp);
+	sort(mice+1,mice+mi+1,cmp);
 	
 	#ifdef U_DEBUG
 	printf("test sort function\n");
@@ -74,10 +74,10 @@ int main(){
 			}
 		}
 	}
-	int max_cnt=mice[1].cnt;
-	int max_cnti=1;
+	int max_cnt=mice[mi].cnt;
+	int max_cnti=mi;
 	
-	for(int i=2;i<=mi;i++){
+	for(int i=mi-1;i>=1;i--){
 		if(max_cnt<mice[i].cnt){
 			max_cnt=mice[i].cnt;
 			max_cnti=i;
@@ -85,14 +85,15 @@ int main(){
 	}
 	int f[1010];
 	int flen;
-	for(int flen=1;;flen++){
+	for(flen=1;;flen++){
 		f[flen]=mice[max_cnti].label;
 		if(mice[max_cnti].prev==max_cnti){
 			break;
 		}
 		max_cnti=mice[max_cnti].prev;
 	}
-	for(int i=1;i<=flen;i++){
+	printf("%d\n",max_cnt);
+	for(int i=flen;i>0;i--){
 		printf("%d\n",f[i]);
 	}
 	
