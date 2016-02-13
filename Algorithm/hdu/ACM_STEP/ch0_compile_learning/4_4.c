@@ -2,7 +2,7 @@
 void swap(int a, int b){
 	int t=a;a=b;b=t;
 }
-
+int a[1000000]={0};
 int main(){
 	int a=3,b=4;
 	swap(3,4);
