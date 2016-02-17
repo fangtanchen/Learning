@@ -1,0 +1,33 @@
+8
+5 5 5
+SJJJJ
+..##J
+.JJJJ
+.J...
+EJ...
+5 5 6
+SJJJJ
+..##J
+.JJJJ
+.J...
+EJ...
+2 3 2 
+SJE
+###
+2 3 3
+SJE
+...
+2 3 3
+S.E
+.J.
+2 3 4
+S.E
+.J
+2 3 4
+S.E
+.J.
+4 3 100
+JJJ
+JSJ
+JEJ
+JJJ
