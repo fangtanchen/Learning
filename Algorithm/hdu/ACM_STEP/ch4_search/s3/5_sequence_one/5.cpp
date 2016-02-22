@@ -1,11 +1,19 @@
+//notice:
+//judge the repeat the num by:
+//    -1.the former one is pn-th  and the now one nn-th, count from pn+1-th to nn-th
+//    if there is some num equal to num[nn], then ignore the nn-th;
+//how to pruning:
+//		1.when then P_cnt is equal to P, then break;
+//		2.when cannot find any dfs_level length sequence, then we donot search dfs_level+1
+//		anymore.
 #include<iostream>
 #include<cstdio>
 #include<cstring>
 //#include<vector>
 #include<algorithm>
 
-#define U_DEBUG
-#define L_JUDGE
+//#define U_DEBUG
+//#define L_JUDGE
 
 #ifdef L_JUDGE
 #pragma warning(disable:4996)
@@ -38,11 +46,20 @@ int DFS(int ssize){
 	for (int ni = path[ssize - 1] + 1; (ni <= imax) && (P_cnt < P); ni++){
 		int nn = num[ni];
 		int pn = num[path[ssize - 1]];
-		if ((!visited[ni]) && (level[pn] <= level[nn])){
-			visited[ni] = true;
-			path[ssize] = ni;
-			DFS(ssize + 1);
-			visited[ni] = false;
+		if ((!visited[ni]) && (pn <= nn)){
+			bool pflag=true;
+			for(int tempi=path[ssize-1]+1;tempi<ni;tempi++){
+				if(num[tempi]==num[ni]){
+					pflag=false;
+					break;
+				}
+			}
+			if(pflag){
+				visited[ni] = true;
+				path[ssize] = ni;
+				DFS(ssize + 1);
+				visited[ni] = false;
+			}
 		}
 	}
 	return 0;
@@ -53,11 +70,7 @@ int main(){
 	freopen("in.txt", "r", stdin);
 	//freopen("out.txt", "w", stdout);
 #endif
-	int pp = 0;
 	while (EOF != scanf("%d%d", &n, &P)){
-		if (pp)printf("\n");
-		else pp = 1;
-
 		memset(isrecord, false, sizeof(isrecord));
 		num_len = 0;
 		P_cnt = 0;
@@ -74,10 +87,12 @@ int main(){
 		level[num[0]] = 0;
 		memset(visited, false, sizeof(visited));
 		for (dfs_size = 1; dfs_size<n; dfs_size++){
-			
+			int temp=P_cnt;
 			DFS(1);
-			if (P_cnt >= P)break;
+			if ((P_cnt >= P)||(temp==P_cnt))
+				break;
 		}
+		printf("\n");
 	}
 
 
