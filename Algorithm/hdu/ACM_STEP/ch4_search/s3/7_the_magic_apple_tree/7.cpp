@@ -24,7 +24,7 @@ struct SNode{
 int N;
 struct SNode nodes[20010];
 int rooti=0;
-int record[20010];
+//int record[20010];
 
 int DFS(int cur){
 	struct SNode cno=nodes[cur];
@@ -32,32 +32,30 @@ int DFS(int cur){
 		return 0;
 	}
 	int chi=cno.lch;
+	vector<int> record;
 	for(int i=1;i<=cno.cl_num;i++){
 		if(0==nodes[chi].apples){
 			DFS(chi);
 		}
 		//record[i]=nodes[chi].apples;
+		record.push_back(nodes[chi].apples);
 		chi=nodes[chi].bro;
 	}
 	
-	chi=cno.lch;
-	for(int i=1;i<=cno.cl_num;i++){
-		record[i]=nodes[chi].apples;
-		chi=nodes[chi].bro;
-	}
 
-	int ppi=(cno.cl_num+1)/2;
-	for(int i=1;i<=ppi;i++){
-		for(int j=i+1;j<=cno.cl_num;j++){
-			if(record[j]<record[i]){
-				int temp=record[i];
-				record[i]=record[j];
-				record[j]=temp;
-			}
-		}
-	}
+	int ppi=(cno.cl_num+1)/2-1;
+	sort(record.begin(),record.end());
 	nodes[cur].apples=record[ppi];
 	return 0;
+}
+char c;
+inline void scan(int &x){
+	while((c=getchar()),c<'0'||c>'9')
+	  ;
+	x=c-'0';
+	while((c=getchar()),(c>='0')&&(c<='9')){
+		x=x*10+c-'0';
+	}
 }
 
 int main(){
@@ -68,11 +66,11 @@ int main(){
 	while(EOF!=scanf("%d", &N)){
 		memset(nodes, 0, sizeof(nodes));
 		for(int ni=1;ni<=N;ni++){
-			scanf("%d", &nodes[ni].cl_num);
+			scan(nodes[ni].cl_num);
 			int pn=0;
 			int temp_n=0;
 			for(int i=nodes[ni].cl_num;i>0;i--){
-				scanf("%d", &temp_n);
+				scan(temp_n);
 				nodes[temp_n].parent=ni;
 				nodes[temp_n].bro=pn;
 				pn=temp_n;
