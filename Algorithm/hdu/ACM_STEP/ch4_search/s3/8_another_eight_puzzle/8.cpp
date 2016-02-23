@@ -5,8 +5,8 @@
 #include<algorithm>
 #include<cmath>
 
-#define U_DEBUG
-#define L_JUDGE
+//#define U_DEBUG
+//#define L_JUDGE
 
 #ifdef L_JUDGE
 #pragma warning(disable:4996)
@@ -64,6 +64,7 @@ int DFS(int cur){
 			DFS(cur+1);
 			visited[i]=false;	
 		}
+		filled[cur]=0;
 	}	
 	return 0;
 }
