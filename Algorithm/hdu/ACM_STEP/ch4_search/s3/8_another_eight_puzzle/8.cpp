@@ -64,6 +64,7 @@ int DFS(int cur){
 			DFS(cur+1);
 			visited[i]=false;	
 		}
+		filled[cur]=0;
 	}	
 	return 0;
 }
