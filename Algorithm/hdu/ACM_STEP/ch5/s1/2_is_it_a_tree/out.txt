@@ -1,0 +1,6 @@
+Case 1 is a tree.
+Case 2 is a tree.
+Case 3 is not a tree.
+Case 4 is a tree.
+Case 5 is a tree.
+Case 6 is a tree.
