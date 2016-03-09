@@ -13,6 +13,31 @@
 
 using namespace std;
 
+
+int pre[1000];
+
+int find(int x){
+	int r=x;
+	while(r!=pre[r]){
+		r=pre[r];
+	}
+	int xi=x;
+	while(xi!=r){
+		int temp=pre[xi];
+		pre[xi]=r;
+		xi=temp;
+	}
+	return r;
+}
+
+void join(int x, int y){
+	int fx=pre[x];
+	int fy=pre[y];
+	if(fx!=fy){
+		pre[fx]=fy;
+	}
+}
+
 int main(){
 	#ifdef L_JUDGE
 		freopen("in.txt","r",stdin);
