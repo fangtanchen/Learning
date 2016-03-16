@@ -14,6 +14,7 @@
 using namespace std;
 
 #define MAX 1002
+#define MINF(a, b) ((a)<(b)?(a):(b))
 char path[2*MAX+3];
 char ans[2*MAX+3];
 int ans_cnt;
@@ -21,7 +22,8 @@ const int dir[2][2]={{1, 0}, {0, 1}};
 char w[5]="DR";
 bool visited[MAX];
 int map[MAX][MAX];
-int mzero[MAX][MAX];
+int m5[MAX][MAX];
+int m2[MAX][MAX];
 int n;
 
 void init(){
@@ -29,15 +31,17 @@ void init(){
 	memset(ans, 0, sizeof(ans));
 	memset(path, 0, sizeof(path));
 	memset(visited, false, sizeof(visited));
-	memset(mzero, 0, sizeof(mzero));
+	memset(m5, 0, sizeof(m5));
+	memset(m2, 0, sizeof(m2));
 }
 
 bool InMap(int ri, int ci){
 	return (ri>=1)&&(ri<=n)&&(ci>=1)&&(ci<=n);
 }
 
-int DFS(int ri, int ci, int mu, int cnt){
+int DFS(int ri, int ci, int cnt2, int cnt5){
 	if((ri==n)&&(ci==n)){
+		int cnt=MINF(cnt2, cnt5);
 		if(cnt<ans_cnt){
 			ans_cnt=cnt;
 			path[ri+ci-2]=0;
@@ -50,15 +54,10 @@ int DFS(int ri, int ci, int mu, int cnt){
 		int tempx=ri+dir[di][0];
 		int tempy=ci+dir[di][1];
 		if(InMap(tempx, tempy)){
-			int tempmu=mu*map[tempx][tempy];
-			int kk=0;
-			while(tempmu%10==0){
-				kk++;
-				tempmu/=10;
-			}
-			int tempcnt=cnt+kk+mzero[tempx][tempy];
+			int tempcnt2=cnt2+m2[tempx][tempy];
+			int tempcnt5=cnt5+m5[tempx][tempy];
 			path[ri+ci-2]=w[di];
-			DFS(tempx, tempy, tempmu, tempcnt);
+			DFS(tempx, tempy, tempcnt2,  tempcnt5);
 		}
 	}
 	return 0;
@@ -75,13 +74,19 @@ int main(){
 		for(int ri=1;ri<=n;ri++){
 			for(int ci=1;ci<=n;ci++){
 				scanf("%d", map[ri]+ci);
-				while(map[ri][ci]%10==0){
-					mzero[ri][ci]++;
-					map[ri][ci]/=10;
+				while(map[ri][ci]%5==0){
+					if(0==map[ri][ci])break;
+					m5[ri][ci]++;
+					map[ri][ci]/=5;
+				}
+				while(map[ri][ci]%2==0){
+					if(0==map[ri][ci])break;
+					m2[ri][ci]++;
+					map[ri][ci]/=2;
 				}
 			}
 		}
-		DFS(1, 1, map[1][1], mzero[1][1]);
+		DFS(1, 1, m2[1][1], m5[1][1]);
 		printf("%d\n", ans_cnt);
 		printf("%s\n", ans);
 	}
