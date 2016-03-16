@@ -40,8 +40,8 @@ bool InMap(int ri, int ci){
 }
 
 int DFS(int ri, int ci, int cnt2, int cnt5){
+	int cnt=MINF(cnt2, cnt5);
 	if((ri==n)&&(ci==n)){
-		int cnt=MINF(cnt2, cnt5);
 		if(cnt<ans_cnt){
 			ans_cnt=cnt;
 			path[ri+ci-2]=0;
@@ -49,6 +49,7 @@ int DFS(int ri, int ci, int cnt2, int cnt5){
 		}
 		return 0;
 	}
+	if(cnt>=ans_cnt)return 0;
 
 	for(int di=0;di<2;di++){
 		int tempx=ri+dir[di][0];
