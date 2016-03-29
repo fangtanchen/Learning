@@ -29,7 +29,7 @@ struct CEvent{
 };
 
 int dp[NMAX][MMAX];
-vector<int> q[CMAX];
+int q[5001][5001];
 int head[CMAX];
 int tail[CMAX];
 CEvent events[NMAX];
@@ -56,7 +56,7 @@ int main(){
     scanf("%d%d%d",&N,&M,&K);
     for(int i=1;i<=N;i++){
          scanf("%d%d%d",&events[i].a,&events[i].b,&events[i].c);
-         events[i].cpb=events[i].b*1.0/events[i].b;
+         events[i].cpb=events[i].c*1.0/events[i].b;
     }
     sort(events+1,events+N+1,cmp);
 
@@ -65,13 +65,11 @@ int main(){
 //        memset(head,0,sizeof(head));
         for(int i=0;i<events[ni].c;i++){
             head[i]=1;
-            q[i].clear();
-            q[i].push_back(i);
         }
         for(int vi=events[ni].c;vi<M;vi++){
             int r=vi%events[ni].c;
             tail[r]++;
-            q[r].push_back(vi-events[ni].c);
+            q[r][tail[r]]=vi-events[ni].c;
             dp[ni][vi]=dp[ni-1][vi];
 
             while(tail[r]>head[r]){
@@ -83,7 +81,7 @@ int main(){
                  int val2=dp[ni-1][q[r][tail[r]-1]]+tempval2;
                  if(val1>=val2){
                       //q[r][tail[r]-1]=q[r][tail[r]];
-                      q[r].erase(q[r].begin()+tail[r]-1);
+                      q[r][tail[r]-1]=q[r][tail[r]];
                       tail[r]--;
                  }else{
                      break;
