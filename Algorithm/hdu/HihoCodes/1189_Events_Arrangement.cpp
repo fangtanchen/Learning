@@ -36,7 +36,7 @@ CEvent events[NMAX];
 int N,M,K;
 
 bool cmp(CEvent x, CEvent y){
-    return x.cpb>=y.cpb;
+    return x.cpb<=y.cpb;
 }
 
 int Calc(CEvent x,int ki,int vi){
