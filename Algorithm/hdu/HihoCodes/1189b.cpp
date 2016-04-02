@@ -61,7 +61,8 @@ int main(){
 	for (int ni = 1; ni <= N; ni++){
 		memset(tail, 0, sizeof(tail));
 		//        memset(head,0,sizeof(head));
-		for (int i = 0; i<events[ni].c; i++){
+		int imax=max(events[ni].c, M);
+		for (int i = 0; i<imax; i++){
 			head[i] = 1;
 		}
 		memcpy(dp[ni], dp[ni - 1], sizeof(dp[ni]));
@@ -73,23 +74,24 @@ int main(){
 
 			int tempval1=events[ni].a-(q[r][tail[r]]*events[ni].b);
 			int val1=dp[ni-1][q[r][tail[r]]]+tempval1;
-			while(tail[r]>head[r]){
-				tempval1=tempval1
-					+events[ni].a-q[r][tail[r]-1]*events[ni].b;
-				int val2=dp[ni-1][q[r][tail[r]-1]]+tempval1;
-				if(val1>=val2){
-					q[r][tail[r]-1]=q[r][tail[r]];
-					tail[r]--;
-				}else{
-					break;
-				}
-			}
-			
+
 			while ((vi - q[r][head[r]]) / events[ni].c>K){
 				head[r]++;
 			}
-			int ki = (vi - q[r][head[r]]) / events[ni].c;
-			tempval1 = Calc(events[ni], ki, vi);
+			int pi=tail[r]-1;
+			while(pi>=head[r]){
+				tempval1=tempval1
+					+events[ni].a-q[r][pi]*events[ni].b;
+				int val2=dp[ni-1][q[r][pi]]+tempval1;
+				if(val1>=val2){
+					q[r][tail[r]-1]=q[r][tail[r]];
+					tail[r]--;
+				}
+				pi--;
+			}
+			
+			//int ki = (vi - q[r][head[r]]) / events[ni].c;
+			//tempval1 = Calc(events[ni], ki, vi);
 			gao(dp[ni][vi], dp[ni - 1][q[r][head[r]]] + tempval1);
 		}
 	}
