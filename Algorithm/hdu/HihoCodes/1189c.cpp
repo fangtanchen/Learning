@@ -14,31 +14,30 @@ using namespace std;
 #define MMAX 5001
 #define NMAX 1005
 #define CMAX 10001
-#define KMAX 1001
+#define KMAX 1011
 
 struct CEvent{
 	int a, b, c;
-	double cpb;
 	CEvent(int x, int y, int z){
 		a = x; b = y; c = z;
-		cpb = c*1.0 / b;
 	}
 	CEvent(){}
 };
 
-int dp[NMAX][MMAX];
-int q[5001][5001];
+int dp[2][MMAX];
+int q[5001][1024];
 int head[CMAX];
 int tail[CMAX];
 CEvent events[NMAX];
 int N, M, K;
 
 bool cmp(CEvent x, CEvent y){
-	return x.cpb <= y.cpb;
+	return x.b*y.c>=y.b*x.c;
 }
 
 int Calc(CEvent x, int ki, int vi){
-	int temp = ki*(x.a - vi*x.b) + (ki*(ki + 1)/2)  * x.c*x.b;
+
+	int temp = (ki)*(x.a - vi*x.b) + (ki*(ki + 1)/2)  * x.c*x.b;
 	return temp;
 }
 
@@ -54,52 +53,52 @@ int main(){
 	scanf("%d%d%d", &N, &M, &K);
 	for (int i = 1; i <= N; i++){
 		scanf("%d%d%d", &events[i].a, &events[i].b, &events[i].c);
-		events[i].cpb = events[i].c*1.0 / events[i].b;
 	}
 	sort(events + 1, events + N + 1, cmp);
+	memset(dp, 0, sizeof(dp));
+	memset(q, 0, sizeof(q));
 
+	int di=1;
+	int si=0;
 	for (int ni = 1; ni <= N; ni++){
-		memset(tail, 0, sizeof(tail));
-		//        memset(head,0,sizeof(head));
-        int imax=max(events[ni].c,M);
-        for (int i = 0; i<imax; i++){
+		int ac=events[ni].c;
+      for (int i = 0; i<M; i++){
 			head[i] = 1;
 		}
-		memcpy(dp[ni], dp[ni - 1], M*sizeof(int));
-		for (int vi = events[ni].c; vi<M; vi++){
-			int r = vi%events[ni].c;
+		memset(tail, 0, sizeof(tail));
+
+		for (int vi = 0; vi<M; vi++){
+			int r = vi%ac;
 			tail[r]++;
+			q[r][tail[r]] = vi;
 
-			q[r][tail[r]] = vi - events[ni].c;
+			int k1=(vi-q[r][tail[r]])/(ac);
+			int tempval1=Calc(events[ni], k1, vi);
+			int val1=dp[si][q[r][tail[r]]]+tempval1;
 
-			int tempval1=events[ni].a-(q[r][tail[r]]*events[ni].b);
-			int val1=dp[ni-1][q[r][tail[r]]]+tempval1;
-
-
-            while(tail[r]>head[r]){
-				tempval1=tempval1
-                    +events[ni].a-q[r][tail[r]-1]*events[ni].b;
-				int val2=dp[ni-1][q[r][tail[r]-1]]+tempval1;
+			while(tail[r]>head[r]){
+				int k2=(vi-q[r][tail[r]-1])/ac;
+				int tempval2=Calc(events[ni], k2, vi);
+				int val2=dp[si][q[r][tail[r]-1]]+tempval2;
 				if(val1>=val2){
 					q[r][tail[r]-1]=q[r][tail[r]];
 					tail[r]--;
-                }else{
-                     break;
-                }
-            }
-
-			while ((vi - q[r][head[r]]) / events[ni].c>K){
+				}else{
+					break;
+				}
+			}
+			while((vi-q[r][head[r]])/ac>K){
 				head[r]++;
 			}
-
-			int ki = (vi - q[r][head[r]]) / events[ni].c;
-            tempval1 = Calc(events[ni], ki, vi);
-			gao(dp[ni][vi], dp[ni - 1][q[r][head[r]]] + tempval1);
+			dp[di][vi]=dp[si][q[r][head[r]]]
+				+Calc(events[ni], (vi-q[r][head[r]])/ac, vi);
 		}
+		si=1-si;
+		di=1-di;
 	}
 	int max = 0;
 	for (int i = 0; i<M; i++){
-		if (max<dp[N][i])max = dp[N][i];
+		if (max<dp[si][i])max = dp[si][i];
 	}
 	printf("%d\n", max);
 
