@@ -48,20 +48,58 @@ int main(){
 
 	int T;
 	scanf("%d", &T);
-	for(int i=1;i<=T;i++){
-		printf("Case %d:\n", i);
+	for(int ti=1;ti<=T;ti++){
+		printf("Case %d:\n", ti);
 		int N, M;
 		scanf("%d%d", &N, &M);
-		scanf("%s", le);
+		scanf("%s", le+1);
 		memset(tree, 0, sizeof(tree));
-		for(int i=2;i<N;i++){
-			if(le[i]=='w'&&(le[i-1]=='b)
+		for(int i=3;i<=N;i++){
+			if(le[i]=='w'&&(le[i-1]=='b')
 					&&(le[i-2]=='w')){
-
+                add(i,1);
 			}
 		}
+        int ty;
+        for(int i=0;i<M;i++){
+             scanf("%d",&ty);
+             if(0==ty){
+                 int l,r;
+                 scanf("%d%d",&l,&r);
+                 l++;r++;
+                 if(r-l<2)printf("0\n");
+                 else printf("%d\n",query(r)-query(l+1));
+             }
+             if(1==ty){
+                 int k;
+                 char ch;
+                 scanf("%d %c",&k,&ch);
+                 k++;
+                 if(le[k]==ch)continue;
+                 for(int p=k-2;p<=k;p++){
+                     if(p<=0)continue;
+                     if(p+2>N)break;
+                     int t1=0,t2=0;
+                     char sp[4]="wbw";
+                     for(int h=0;h<3;h++){
+                         int temp=p+h;
+                         if(temp==k){
+                              if(sp[h]==le[temp])t1++;
+                              else t2++;
+                         }else{
+                             if(sp[h]==le[temp]){
+                                  t1++;
+                                  t2++;
+                             }
+                         }
+                    }
+                    add(p+2,(t2==3)-(t1==3));
+                 }
+                 le[k]=ch;
+             }
+        }
+    }
 
-	}
 	#ifdef L_JUDGE
 		fclose(stdin);
 		fclose(stdout);
