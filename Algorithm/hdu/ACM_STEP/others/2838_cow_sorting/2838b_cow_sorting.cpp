@@ -44,7 +44,7 @@ ll query(ll k){
 int  main(){
 	#ifdef L_JUDGE
 		freopen("in.txt","r",stdin);
-		freopen("out.txt","w",stdout);
+//		freopen("out.txt","w",stdout);
 	#endif
     ll N;
     while(EOF!=scanf("%ld",&N)){

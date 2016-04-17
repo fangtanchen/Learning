@@ -16,10 +16,12 @@ using namespace std;
 #pragma warning(disable:4996)
 #endif
 
+typedef long long int ll;
 
-__int64 A[MAX];
-__int64 c[MAX];
-__int64 d[MAX];
+
+ll A[MAX];
+ll c[MAX];
+ll d[MAX];
 
 
 
@@ -31,9 +33,9 @@ int Lowbit(int t)
 
 
 //求和
-__int64 getSum(int n)
+ll getSum(int n)
 {
-	__int64 sum = 0;
+	ll sum = 0;
 	while (n>0)
 	{
 		sum += c[n];
@@ -43,9 +45,9 @@ __int64 getSum(int n)
 }
 
 //求和
-__int64 getSumD(int n)
+ll getSumD(int n)
 {
-	__int64 sum = 0;
+	ll sum = 0;
 	while (n>0)
 	{
 		sum += d[n];
@@ -70,14 +72,14 @@ int main()
 {
 #ifdef L_JUDGE
 	freopen("in.txt", "r", stdin);
-	freopen("out.txt", "w", stdout);
+//	freopen("out.txt", "w", stdout);
 #endif
 
 	int n;
 	while (scanf("%d", &n) != EOF)
 	{
-		__int64 ans = 0;
-		__int64 sum = 0;
+		ll ans = 0;
+		ll sum = 0;
 		memset(c, 0, sizeof(c));
 		memset(d, 0, sizeof(d));
 		for (int i = 1; i <= n; i++)
