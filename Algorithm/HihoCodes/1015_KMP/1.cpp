@@ -41,7 +41,7 @@ int main(){
 					if(par[i1]==par[q+1]){
 						next[i1]=q+1;
 						q++;break;
-					}					
+					}
 					q=next[q];
 				}
 				if(!q){
@@ -53,6 +53,16 @@ int main(){
 				}
 			}
 		}
+
+        int cnt=0;
+        for(int i=1,j=1;orig[i];){
+            if(0==j||orig[i]==par[j]){
+                i++;j++;
+            }else{
+                j=next[j];
+            }
+            if(!par[j])cnt++;
+        }
 	}
 
 	#ifdef L_JUDGE
