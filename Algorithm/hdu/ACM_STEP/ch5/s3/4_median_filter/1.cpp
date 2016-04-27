@@ -17,9 +17,11 @@ using namespace std;
 #define MAXM 510
 
 int map[MAXM][MAXM];
+int ans[MAXM][MAXM];
 int tree[MAXN];
 int n, r;
 int midnum;
+int rr;
 
 int lowbit(int k){
 	return k&-k;
@@ -32,11 +34,12 @@ void init(){
             map[i][j]=1;
         }
     }
+    rr=1;
 }
 
 
 int add(int x, int a){
-	while(x<MAXN){
+	while(x<rr){
 		tree[x]+=a;
 		x+=lowbit(x);
 	}
@@ -53,7 +56,7 @@ int query(int x){
 }
 
 int bin(){
-	int lr=1, rt=MAXN;
+	int lr=1, rt=rr;
 	while(lr<rt){
 		int mid=(lr+rt)/2;
 		if(query(mid)<midnum)lr=mid+1;
@@ -73,6 +76,7 @@ int main(){
 			for(int j=1;j<=n;j++){
 				scanf("%d", map[i]+j);
 				map[i][j]++;
+                rr=max(map[i][j],rr);
 			}
 		}
 
@@ -97,10 +101,7 @@ int main(){
 				add(map[tempi1][k], -1);
 				add(map[tempi2][k], 1);
 			}
-            temp=map[i][min1];
-            map[i][min1]=bin();
-            add(map[i][min1],1);
-            add(temp,-1);
+            ans[i][min1]=bin();
 
 			// right
 			//
@@ -111,10 +112,7 @@ int main(){
 					add(map[k][tempj1], -1);
 					add(map[k][tempj2], 1);
 				}
-                temp=map[i][j];
-                map[i][j]=bin();
-                add(map[i][j],1);
-                add(temp,-1);
+                ans[i][j]=bin();
 			}
 			i++;
 			if(i>max1)break;
@@ -125,10 +123,7 @@ int main(){
 				add(map[tempi1][j], -1);
 				add(map[tempi2][j], 1);
 			}
-            temp=map[i][max1];
-            map[i][max1]=bin();
-            add(map[i][max1],1);
-            add(temp,-1);
+            ans[i][max1]=bin();
 
 			//left
 			tempi1=i-r, tempi2=i+r;
@@ -138,17 +133,13 @@ int main(){
 					add(map[k][tempj1], -1);
 					add(map[k][tempj2], 1);
 				}
-                temp=map[i][j];
-                map[i][j]=bin();
-                add(map[i][j],1);
-                add(temp,-1);
+                ans[i][j]=bin();
 			}
 			i++;
 		}
 		for(int i=min1;i<=max1;i++){
-			printf("%d", map[i][min1]-1);
-			for(int j=min1+1;j<=max1;j++){
-				printf(" %d", map[i][j]-1);
+			for(int j=min1;j<=max1;j++){
+				printf("%d ", ans[i][j]-1);
 			}
 			printf("\n");
 		}
