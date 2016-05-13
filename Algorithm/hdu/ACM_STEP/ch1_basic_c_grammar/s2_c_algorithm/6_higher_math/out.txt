@@ -1,0 +1,6 @@
+Scenario #1:
+yes
+
+Scenario #2:
+no
+

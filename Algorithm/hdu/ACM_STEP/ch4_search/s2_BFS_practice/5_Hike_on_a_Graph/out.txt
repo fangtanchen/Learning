@@ -1,0 +1,13 @@
+3 1 2 3
+rbr
+bbb
+rbr
+2
+2 1 2 2
+yg
+gy
+impossible
+2 2 2 2
+yy
+gy
+0

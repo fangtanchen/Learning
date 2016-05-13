@@ -1,0 +1,35 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: f - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Users\hasee\AppData\Local\Temp\RSP2FF6.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/f.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ  /c 
+"E:\编程\算法\1002大整数加和\f\m.cpp"
+]
+Creating command line "cl.exe @C:\Users\hasee\AppData\Local\Temp\RSP2FF6.tmp" 
+Creating temporary file "C:\Users\hasee\AppData\Local\Temp\RSP2FF7.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/f.pdb" /debug /machine:I386 /out:"Debug/f.exe" /pdbtype:sept 
+".\Debug\m.obj"
+]
+Creating command line "link.exe @C:\Users\hasee\AppData\Local\Temp\RSP2FF7.tmp"
+<h3>Output Window</h3>
+Compiling...
+m.cpp
+E:\编程\算法\1002大整数加和\f\m.cpp(49) : error C2660: 'srand' : function does not take 0 parameters
+E:\编程\算法\1002大整数加和\f\m.cpp(50) : error C2064: term does not evaluate to a function
+E:\编程\算法\1002大整数加和\f\m.cpp(50) : fatal error C1903: unable to recover from previous error(s); stopping compilation
+执行 cl.exe 时出错.
+
+
+
+<h3>Results</h3>
+f.exe - 1 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
