@@ -22,6 +22,8 @@ double numstack[10];
 
 void Init(){
 	memset(visited, false, sizeof(visited));
+    memset(numtype,0,sizeof(numtype));
+
 }
 
 double  Calc(double x, double y,char op){
@@ -104,6 +106,7 @@ int main(){
     int t;
     scanf("%d",&t);
     for(int i=0;i<t;i++){
+        Init();
         for(int i=0;i<4;i++){
             scanf("%lf",numtype+i);
         }
