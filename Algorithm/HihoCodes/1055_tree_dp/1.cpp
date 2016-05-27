@@ -94,7 +94,7 @@ int main(){
     }
     BinaryTree(1);
     PostOrder(1);
-    printf("%d\n",g[1][M]);
+    printf("%d\n",dp[1][M]);
     //printf("1");
 
 	#ifdef L_JUDGE
