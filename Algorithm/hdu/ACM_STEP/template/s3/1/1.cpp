@@ -8,6 +8,8 @@
 #define L_JUDGE
 
 #ifdef L_JUDGE
+
+
 #pragma warning(disable:4996)
 #endif
 
