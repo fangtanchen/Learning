@@ -24,6 +24,7 @@ int n,m;
 int map[MAXN][MAXM];
 int id[MAXN][MAXM];
 Node nodes[MAXN*MAXM];
+int ans[MAXN*MAXM];
 Node head;
 Node colname[MAXM];
 
@@ -97,7 +98,7 @@ void Build(){
 
 void Remove(int col){
      Node *p=colname+col;
-     p->lf>rt=p->rt;
+     p->lf->rt=p->rt;
      p->rt->lf=p->lf;
      Node *p2=p->dn;
      while(p2!=p){
@@ -130,10 +131,30 @@ void Resume(int col){
 bool Dance(int depth){
     Node *p=head.rt;
     if(p==&head)return true;
-    Node *p2=p.dn;
+    Node *p2=p->dn;
     if(p2==p)return false;
 
-    Remove(p2.y);
+    Remove(p2->y);
+    while(p2!=p){
+         ans[depth]=p2->x;
+
+         Node *pr=p2->rt;
+         while(pr!=p2){
+             Remove(pr->y);
+             pr=pr->rt;
+         }
+         if(Dance(depth+1))
+             return true;
+         pr=p2->lf;
+         while(pr!=p2){
+              Resume(pr->y);
+              pr=pr->lf;
+         }
+         p2=p2->dn;
+    }
+    Resume(p->y);
+    return false;
+
 
 }
 
@@ -155,7 +176,8 @@ int main(){
              }
          }
          Build();
-         Dance(1);
+         if(Dance(1))printf("Yes\n");
+         else printf("No\n");
     }
 
 	#ifdef L_JUDGE
