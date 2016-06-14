@@ -8,11 +8,6 @@
 #define L_JUDGE
 
 #ifdef L_JUDGE
-<<<<<<< HEAD
-=======
-
-
->>>>>>> eef699ca292afba7548018746315cb434ba09bc7
 #pragma warning(disable:4996)
 #endif
 
