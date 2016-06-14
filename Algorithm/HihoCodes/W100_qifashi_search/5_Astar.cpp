@@ -143,12 +143,12 @@ int main(){
         start.g=0;
         start.h=GetH(start);
         start.f=start.g+start.h;
-//        int res=BFS(start);
+        int res=BFS(start);
 
-        if(!Judge(start)){
+        if(res==-1){
             printf("No Solution!\n");
         }else{
-             printf("%d\n",BFS(start));
+             printf("%d\n",res);
         }
     }
 
