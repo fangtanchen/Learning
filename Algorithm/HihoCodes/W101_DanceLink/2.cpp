@@ -46,6 +46,7 @@ void Build(){
      for(int j=1;j<=m;j++){
          p=colname+j;
          p->x=0;p->y=j;
+         p->left=p->right=p->up=p->down=p;
          p->right=pre->right;
          p->left=pre;
          pre->right->left=p;
@@ -144,8 +145,8 @@ bool Dance(int depth){
 
     Remove(p->y);
     while(p2!=p){
+        ans[depth]=p2->x;
         Node *pr=p2->right;
-        ans[depth]=pr->x;
         while(pr!=p2){
             Remove(pr->y);
             pr=pr->right;
