@@ -22,7 +22,7 @@ int main(){
 	#ifdef L_JUDGE
 		fclose(stdin);
 		fclose(stdout);
-		system("out.txt");
+//		system("out.txt");
 	#endif
 
 	return 0;
