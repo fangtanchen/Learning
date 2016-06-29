@@ -26,8 +26,11 @@ struct Node{
 
 Node *root;
 
+Node *InsertSplay(Node *x,int y);
+
 void Init(){
-    root=NULL;
+    root=new Node(MINK);
+    InsertSplay(root,MAXK);
 }
 
 void LeftRotate(Node *a){
@@ -88,6 +91,119 @@ void Splay(Node *x, Node *y){
     }
 }
 
+Node *Insert(Node *node,int k){
+    if(k<node->key){
+        if(node->left==NULL){
+            node->left=new Node(k);
+            node->left->fa=node;
+            return node->left;
+        }else{
+             return Insert(node->left,k);
+        }
+    }else  if(k>node->key){
+        if(node->right==NULL){
+            node->right=new Node(k);
+            node->right->fa=node;
+            return node->right;
+        }else{
+            return Insert(node->right,k);
+        }
+    }else{
+         return node;
+    }
+}
+
+Node *Find(Node *node, int k){
+    while(node){
+        if(k<node->key)node=node->left;
+        else if(k>node->key){
+             node=node->right;
+        }else{
+            Splay(node,NULL);
+            return node;
+        }
+    }
+    return NULL;
+}
+
+Node *InsertSplay(Node *node, int k){
+    Node *tmp=Insert(node,k);
+    Splay(tmp,NULL);// adjust the tree to more balanced
+    return tmp;
+}
+
+Node *FindPrev(Node *node){
+    Splay(node,NULL);
+    Node *tmp=node->left;
+    while(tmp->right){
+        tmp=tmp->right;
+    }
+    return tmp;
+}
+
+Node *FindNext(Node *node){
+     Splay(node,NULL);
+     Node *tmp=node->right;
+     while(tmp->left){
+         tmp=tmp->left;
+     }
+     return tmp;
+}
+
+bool Delete(Node *node,int k){
+     Node *tmp=Find(node,k);
+     if(tmp==NULL)return false;
+     Node *prev=FindPrev(tmp);
+     Node *nxt=FindNext(tmp);
+     Splay(prev,NULL);
+     Splay(nxt,prev);
+     free(nxt->left);
+     nxt->left=NULL;
+     return true;
+}
+
+void Free(Node *node){
+    if(node->left){
+        Free(node->left);
+        node->left=NULL;
+    }
+    if(node->right){
+        Free(node->right);
+        node->right=NULL;
+    }
+    free(node);
+}
+
+bool DeleteInterval(Node *node,int a,int b){
+    if(a>b){
+        int tmp=a;a=b;b=tmp;
+    }
+     Node *ap=InsertSplay(node,a);
+     Node *prev=FindPrev(ap);
+     Node *bp=InsertSplay(ap,b);
+     Node *nxt=FindNext(bp);
+     Splay(prev,NULL);
+     Splay(nxt,prev);
+     Free(nxt->left);
+     nxt->left=NULL;
+     return true;
+}
+Node *Search(Node *node,int k){
+     Node *ret;
+     while(node){
+         if(k<node->key){
+             node=node->left;
+//             if(ret)return ret;
+         }else if(k>node->key){
+            ret=node;
+            node=node->right;
+         }else{
+             return node;
+         }
+     }
+     return ret;
+}
+
 int main(){
 	#ifdef L_JUDGE
 		freopen("in.txt","r",stdin);
@@ -95,15 +211,25 @@ int main(){
 	#endif
     int n;
     scanf("%d",&n);
+    Init();
     while(n--){
          char ch;
          cin>>ch;
+         int ka,kb;
+         while(root->fa)root=root->fa;
+
          switch(ch){
              case 'I':
+                 cin>>ka;
+                 InsertSplay(root,ka);
                  break;
              case 'Q':
+                 cin>>ka;
+                 cout<<Search(root,ka)->key<<endl;
                  break;
              case 'D':
+                 cin>>ka>>kb;
+                 DeleteInterval(root,ka,kb);
                  break;
              default:
                  break;
