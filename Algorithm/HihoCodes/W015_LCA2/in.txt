@@ -1,7 +1,9 @@
-<<<<<<< HEAD:Algorithm/hdu/HihoCodes/in.txt
-2 5 2
-=======
-2 7 2
->>>>>>> 9f4ade269761284f553d2be60f854edcf8462af9:Algorithm/HihoCodes/in.txt
-4 1 1
-5 2 4
+4
+Adam Sam
+Sam Joey
+Sam Micheal
+Adam Kevin
+3
+Sam Sam
+Adam Sam
+Micheal Kevin
