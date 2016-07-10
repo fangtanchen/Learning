@@ -16,13 +16,14 @@ using namespace std;
 int main(){
 	#ifdef L_JUDGE
 		freopen("in.txt","r",stdin);
-		freopen("out.txt","w",stdout);
+//		freopen("out.txt","w",stdout);
 	#endif
+        printf("%d\n",sizeof(short));
 
 	#ifdef L_JUDGE
 		fclose(stdin);
 		fclose(stdout);
-		system("out.txt");
+//		system("out.txt");
 	#endif
 
 	return 0;
