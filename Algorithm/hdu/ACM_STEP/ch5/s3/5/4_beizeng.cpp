@@ -107,6 +107,10 @@ int main(){
                  printf("0\n");
                  continue;
             }
+            if(a<1||a>n||b<1||b>n){
+                printf("Not connected\n");
+                continue;
+            }
             int k=LCA(a,b);
             if(k<=0)printf("Not connected\n");
             else{

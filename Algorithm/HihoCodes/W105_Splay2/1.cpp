@@ -12,28 +12,29 @@
 #endif
 
 using namespace std;
-typedef long long int ll;
+typedef unsigned long long int ll;
 const int MAXN=200010;
 const int MAXID=100000010;
-const int MINID=-100;
+const int MINID=-10000000;
 const int MAXVAL=10000010;
 
 struct Node{
-    int val,id,num,lazy;
-    ll totalval;
+    int val,id,num;
+    ll totalval,lazy;
     Node *left,*right,*fa;
     Node(int i,int v){
         id=i;
         val=v;
         num=1;
-        totalval=val;
+        totalval=v;
         lazy=0;
         left=right=fa=NULL;
     }
-}*root;
+}*root=NULL;
 
 void Update(Node *x){
-    x->num=1;x->totalval=x->val;
+    x->num=1;
+    x->totalval=x->val;
     if(x->left){
         x->num+=x->left->num;
         x->totalval+=x->left->totalval;
@@ -44,13 +45,14 @@ void Update(Node *x){
     }
 }
 
-void Mark(Node *a,int lazy){
+void Mark(Node *a,long long int lazy){
     a->lazy+=lazy;
     a->totalval+=a->num*lazy;
     a->val+=lazy;
 }
 
 void Send(Node *a){
+    if(!a->lazy)return;
     if(a->left){
         Mark(a->left,a->lazy);
     }
@@ -133,13 +135,13 @@ void Splay(Node *x, Node *y){
 }
 
 Node *Insert(Node *node,int id,int val){
-    Node *ret=NULL;
     Send(node);
+    Node *ret=NULL;
     if(id<node->id){
         if(node->left==NULL){
-            node->left=new Node(id,val);
-            node->left->fa=node;
-            ret=node->left;
+            ret=new Node(id,val);
+            node->left=ret;
+            ret->fa=node;
         }else{
              ret=Insert(node->left,id,val);
         }
@@ -158,6 +160,7 @@ Node *Insert(Node *node,int id,int val){
     return ret;
 }
 
+
 Node *Find(Node *node,int id){
     while(node){
         if(id<node->id){
@@ -168,6 +171,7 @@ Node *Find(Node *node,int id){
             return node;
         }
     }
+    return NULL;
 }
 
 Node *FindPrev(Node *a){
@@ -200,8 +204,18 @@ void Free(Node *a){
 }
 
 bool Delete(Node *node,int a,int b){
-    Node *na=Insert(node,a,-1);
-    Node *nb=Insert(node,b,-1);
+    bool erase_a=false,erase_b=false;
+    Node *na=Find(node,a),*nb=Find(node,b);
+    while(node->fa)node=node->fa;
+    if(!(na)){
+         erase_a=true;
+         na=Insert(node,a,0);
+    }
+    while(node->fa)node=node->fa;
+    if(!(nb)){
+        erase_b=true;
+        nb=Insert(node,b,0);
+    }
     Node *prev=FindPrev(na);
     Node *nxt=FindNext(nb);
     Splay(prev,NULL);
@@ -214,27 +228,58 @@ bool Delete(Node *node,int a,int b){
 }
 
 ll Search(Node *node,int a,int b){
-    Node *na=Insert(node,a,-1);
-    Node *nb=Insert(node,b,-1);
+    bool erase_a=false,erase_b=false;
+    Node *na=Find(node,a),*nb=Find(node,b);
+    while(node->fa)node=node->fa;
+    if(!(na)){
+         erase_a=true;
+         na=Insert(node,a,0);
+    }
+    while(node->fa)node=node->fa;
+    if(!(nb)){
+        erase_b=true;
+        nb=Insert(node,b,0);
+    }
     Node *prev=FindPrev(na);
     Node *nxt=FindNext(nb);
-    if(na->val==-1)Delete(na,a,a);
-    if(nb->val==-1)Delete(nb,b,b);
     Splay(prev,NULL);
     Splay(nxt,prev);
-    return nxt->totalval;
+    unsigned long long ret=nxt->left->totalval;
+    if(erase_a){
+         Delete(node,a,a);
+    }
+    if(erase_b){
+        Delete(node,b,b);
+    }
+    return ret;
 }
 
 bool Modify(Node *node,int a,int b,int val){
-    Node *na=Insert(node,a,-1);
-    Node *nb=Insert(node,b,-1);
+    bool erase_a=false,erase_b=false;
+    Node *na=Find(node,a),*nb=Find(node,b);
+    while(node->fa)node=node->fa;
+    if(!(na)){
+         erase_a=true;
+         na=Insert(node,a,0);
+    }
+    while(node->fa)node=node->fa;
+    if(!(nb)){
+        erase_b=true;
+        nb=Insert(node,b,0);
+    }
     Node *prev=FindPrev(na);
     Node *nxt=FindNext(nb);
-    if(na->val==-1)Delete(na,a,a);
-    if(nb->val==-1)Delete(nb,b,b);
     Splay(prev,NULL);
     Splay(nxt,prev);
     Mark(nxt->left,val);
+    Update(nxt);
+    Update(prev);
+    if(erase_a){
+         Delete(node,a,a);
+    }
+    if(erase_b){
+        Delete(node,b,b);
+    }
     return true;
 }
 void Init(){
@@ -249,7 +294,8 @@ int main(){
 	#endif
     int n;
     Init();
-    scanf("%d",&n);
+    cin.sync_with_stdio(0);
+    cin>>n;
     while(n--){
         char ch;
         int a,b,c;
@@ -279,6 +325,7 @@ int main(){
                 break;
         }
     }
+    cout<<flush;
 
 	#ifdef L_JUDGE
 		fclose(stdin);
