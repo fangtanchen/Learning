@@ -49,23 +49,59 @@ void Build(int l,int r,int id){
     Update(id);
 }
 
+void Send(int id){
+    if(tree[id].l!=tree[id].r){
+        int mid=(tree[id].l+tree[id].r)/2;
+        if(tree[id].lazy_set!=-1){
+            tree[lson].lazy_set=tree[rson].lazy_set=tree[id].lazy_set;
+            tree[lson].total=tree[lson].num*tree[lson].lazy_set;
+            tree[rson].total=tree[rson].num*tree[rson].lazy_set;
+            tree[lson].lazy_add=tree[rson].lazy_add=0;
+            tree[id].lazy_set=-1;
+        }
+        if(tree[id].lazy_add!=0){
+            tree[lson].lazy_add+=tree[id].lazy_add;
+            tree[rson].lazy_add+=tree[id].lazy_add;
+            tree[lson].total+=tree[lson].num*tree[lson].lazy_add;
+            tree[rson].total+=tree[rson].num*tree[rson].lazy_add;
+            tree[id].lazy_add=0;
+        }
+    }
+}
 
 void ModifySet(int l,int r,int lazy,int id){
+    Send(id);
     if((tree[id].l==l)&&(tree[id].r==r)){
         tree[id].lazy_set=lazy;
         tree[id].total=tree[id].num*lazy;
         return;
     }
-    Send(id);
     int mid=(tree[id].l+tree[id].r)/2;
     if(r<=mid)ModifySet(l,r,lazy,lson);
     else if(mid<=l)ModifySet(l,r,lazy,rson);
     else{
          ModifySet(l,mid,lazy,lson);
-         Modi
+         ModifySet(mid+1,r,lazy,rson);
     }
+    Update(id);
 }
 
+void ModifyAdd(int l,int r,int lazy,int id){
+    Send(id);
+    if((tree[id].l==l)&&(tree[id].r==r)){
+        tree[id].lazy_add=lazy;
+        tree[id].total+=tree[id].num*lazy;
+        return;
+    }
+    int mid=(tree[id].l+tree[id].r)/2;
+    if(r<=mid)ModifySet(l,r,lazy,lson);
+    else if(mid<=l)ModifySet(l,r,lazy,rson);
+    else{
+         ModifySet(l,mid,lazy,lson);
+         ModifySet(mid+1,r,lazy,rson);
+    }
+    Update(id);
+}
 int main(){
 	#ifdef L_JUDGE
 		freopen("in.txt","r",stdin);
