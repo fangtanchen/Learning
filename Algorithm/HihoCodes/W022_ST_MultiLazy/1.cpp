@@ -31,7 +31,7 @@ struct Node{
 int N,M;
 int val[MAXN];
 
-void Update(id){
+void Update(int id){
     tree[id].num=tree[lson].num+tree[rson].num;
     tree[id].total=tree[lson].total+tree[rson].total;
 }
@@ -62,8 +62,8 @@ void Send(int id){
         if(tree[id].lazy_add!=0){
             tree[lson].lazy_add+=tree[id].lazy_add;
             tree[rson].lazy_add+=tree[id].lazy_add;
-            tree[lson].total+=tree[lson].num*tree[lson].lazy_add;
-            tree[rson].total+=tree[rson].num*tree[rson].lazy_add;
+            tree[lson].total+=tree[lson].num*tree[id].lazy_add;
+            tree[rson].total+=tree[rson].num*tree[id].lazy_add;
             tree[id].lazy_add=0;
         }
     }
@@ -73,12 +73,13 @@ void ModifySet(int l,int r,int lazy,int id){
     Send(id);
     if((tree[id].l==l)&&(tree[id].r==r)){
         tree[id].lazy_set=lazy;
+        tree[id].lazy_add=0;
         tree[id].total=tree[id].num*lazy;
         return;
     }
     int mid=(tree[id].l+tree[id].r)/2;
     if(r<=mid)ModifySet(l,r,lazy,lson);
-    else if(mid<=l)ModifySet(l,r,lazy,rson);
+    else if(mid<l)ModifySet(l,r,lazy,rson);
     else{
          ModifySet(l,mid,lazy,lson);
          ModifySet(mid+1,r,lazy,rson);
@@ -89,18 +90,29 @@ void ModifySet(int l,int r,int lazy,int id){
 void ModifyAdd(int l,int r,int lazy,int id){
     Send(id);
     if((tree[id].l==l)&&(tree[id].r==r)){
-        tree[id].lazy_add=lazy;
+        tree[id].lazy_add+=lazy;
         tree[id].total+=tree[id].num*lazy;
         return;
     }
     int mid=(tree[id].l+tree[id].r)/2;
-    if(r<=mid)ModifySet(l,r,lazy,lson);
-    else if(mid<=l)ModifySet(l,r,lazy,rson);
+    if(r<=mid)ModifyAdd(l,r,lazy,lson);
+    else if(mid<l)ModifyAdd(l,r,lazy,rson);
     else{
-         ModifySet(l,mid,lazy,lson);
-         ModifySet(mid+1,r,lazy,rson);
+         ModifyAdd(l,mid,lazy,lson);
+         ModifyAdd(mid+1,r,lazy,rson);
     }
     Update(id);
+}
+
+int Query(int l,int r,int id){
+    if((tree[id].l==l)&&(tree[id].r==r)){
+        return tree[id].total;
+    }
+    Send(id);
+    int mid=(tree[id].l+tree[id].r)/2;
+    if(r<=mid)return Query(l,r,lson);
+    else if(mid<l)return Query(l,r,rson);
+    else return Query(l,mid,lson)+Query(mid+1,r,rson);
 }
 int main(){
 	#ifdef L_JUDGE
@@ -113,7 +125,21 @@ int main(){
         cin>>val[i];
     }
     Build(0,N,1);
-
+    for(int i=0;i<M;i++){
+         int op,a,b,v;
+         cin>>op>>a>>b>>v;
+         switch(op){
+             case 0:
+                 ModifyAdd(a,b,v,1);
+                 break;
+             case 1:
+                 ModifySet(a,b,v,1);
+                 break;
+             default:
+                 break;
+         }
+         cout<<tree[1].total<<endl;
+    }
 
 
 	#ifdef L_JUDGE
