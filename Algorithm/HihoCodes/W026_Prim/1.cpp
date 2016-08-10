@@ -49,8 +49,7 @@ void Prim(int root){
         ans+=minv;
         for(int i=1;i<=N;i++){
             if(vis[i])continue;
-            int tmp=dis[mini]+map[mini][i];
-            if(tmp<dis[i])dis[i]=tmp;
+            if(map[mini][i]<dis[i])dis[i]=map[mini][i];
         }
     }while(1);
 
