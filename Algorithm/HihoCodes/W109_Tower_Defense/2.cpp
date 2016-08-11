@@ -1,14 +1,9 @@
 #include<iostream>
 #include<cstdio>
 #include<cstring>
-<<<<<<< HEAD
 #include<vector>
-=======
-//#include<vector>
->>>>>>> 80aaca46760270e9c10b4e8e4eb506756fe7411a
 #include<algorithm>
 
-#define U_DEBUG
 #define L_JUDGE
 
 #ifdef L_JUDGE
@@ -16,7 +11,6 @@
 #endif
 
 using namespace std;
-<<<<<<< HEAD
 const int MAXN=1e4+10;
 const int INF=0x1fffffff;
 struct Node{
@@ -29,10 +23,20 @@ struct Node{
     }
 };
 
+struct Record{
+    int qt;
+    int pt;
+};
+
 Node trees[MAXN];
+Record rec[MAXN];
 vector<int> G[MAXN];
 int in[MAXN];
 int N;
+
+int cmp(Record x,Record y){
+    return x.qt>y.qt;
+}
 
 void Init(){
     memset(in,0,sizeof(in));
@@ -46,36 +50,49 @@ void PostOrder(int id){
         trees[id].ret=trees[id].qi;
         return;
     }
-    int sum=0;
-    int tmp_min=INF;
     for(int i=G[id].size()-1;i>=0;i--){
         int child=G[id][i];
         PostOrder(child);
-        sum=sum+trees[child].pay-trees[child].ret;
-        tmp_min=min(tmp_min,trees[child].ret);
     }
-    sum+=tmp_min;
-    trees[id].pay=sum+trees[id].pi-trees[id].qi;
-    trees[id].ret=tmp_min;
+    for(int i=0;i<G[id].size();i++){
+         int child=G[id][i];
+         rec[i].pt=trees[child].pay;
+         rec[i].qt=trees[child].ret;
+    }
+    sort(rec,rec+G[id].size(),cmp);
+    int wallet=INF;
+    int min_wallet=INF;
+    wallet-=trees[id].pi;
+    if(min_wallet>wallet){
+        min_wallet=wallet;
+    }
+    wallet+=trees[id].qi;
+    for(int i=0;i<G[id].size();i++){
+        wallet-=rec[i].pt;
+        if(min_wallet>wallet){
+             min_wallet=wallet;
+        }
+        wallet+=rec[i].qt;
+    }
+    trees[id].pay=INF-min_wallet;
+    trees[id].ret=wallet-min_wallet;
 }
-=======
->>>>>>> 80aaca46760270e9c10b4e8e4eb506756fe7411a
 
 int main(){
 	#ifdef L_JUDGE
 		freopen("in.txt","r",stdin);
 //		freopen("out.txt","w",stdout);
 	#endif
-<<<<<<< HEAD
-    cin.sync_with_stdio(false);
-    cin>>N;
+//    cin.sync_with_stdio(false);
     Init();
+    cin>>N;
     for(int i=1;i<=N;i++){
          cin>>trees[i].pi>>trees[i].qi;
     }
     for(int i=1;i<N;i++){
          int a,b;
          cin>>a>>b;
+         if(a>b)swap(a,b);
          G[a].push_back(b);
          in[b]++;
     }
@@ -85,8 +102,6 @@ int main(){
             printf("%d\n",trees[i].pay);
         }
     }
-=======
->>>>>>> 80aaca46760270e9c10b4e8e4eb506756fe7411a
 
 	#ifdef L_JUDGE
 		fclose(stdin);
@@ -96,3 +111,4 @@ int main(){
 
 	return 0;
 }
+
