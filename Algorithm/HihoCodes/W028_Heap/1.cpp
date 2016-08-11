@@ -42,14 +42,24 @@ void Adjust(int st){
 
 int Delete(){
     swap(weight[1],weight[num_weight]);
+    int ret=weight[num_weight];
+    weight[num_weight]=0;
+    num_weight--;
     int id=1;
     int idmax=num_weight/2;
-    while(id<idmax){
-        int child=-1;
-        if(weight[lson]>weight[id]){
-            child=lson;
+    while(id<=idmax){
+        int child=lson;
+        if(weight[rson]>weight[child]){
+            child=rson;
+        }
+        if(weight[id]<weight[child]){
+            swap(weight[id],weight[child]);
+            id=child;
+        }else{
+            break;
         }
     }
+    return ret;
 }
 
 int main(){
@@ -72,7 +82,6 @@ int main(){
                  break;
              case 'T':
                  cout<<Delete()<<endl;
-                 num_weight--;
                  break;
              default:
                  break;
