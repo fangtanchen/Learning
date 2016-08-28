@@ -94,36 +94,35 @@ int main(){
                      }
                  }
                  //rule3
-                 for(int zi=-2;zi<=2;zi++){
-                     for(int yi=-2;yi<=2;yi++) {
-                         if((!zi)&&(!yi))continue;
-                         int nbri=ri+zi;
-                         int nbci=ci+yi;
-                         if((!Check(nbri,nbci))||(-1==map[nbri][nbci]))
-                             continue;
-                         if((cnt[ri][ci]-cnt[nbri][nbci])!=
-                                 (map[ri][ci]-map[nbri][nbci]))
-                             continue;
-                         //judge whether is subset
-                         bool flag=true;
-                         for(int di=0;di<8;di++){
-                              int tmpri=nbri+dir[di][0];
-                              int tmpci=nbci+dir[di][1];
-                              if(!Check(tmpri,tmpci))continue;
-                              if((-1==map[tmpri][tmpci])
-                                      &&((abs(tmpri-ri)>1)||(abs(tmpci-ci)>1))){
-                                  flag=false;
-                                  break;
+                 for(int di=0;di<8;di++){
+                     int nbri=ri+dir[di][0];
+                     int nbci=ci+dir[di][1];
+                     if(!Check(nbri,nbci))continue;
+                     if(-1==map[nbri][nbci])continue;
+                     bool flag=true;
+                     for(int pi=0;pi<8;pi++){
+                          int tmpri=nbri+dir[pi][0];
+                          int tmpci=nbci+dir[pi][1];
+                          if(!Check(tmpri,tmpci))continue;
+                          if(-1==map[tmpri][tmpci]){
+                              if(abs(ri-tmpri)>1 ||abs(ci-tmpci)>1){
+                                   flag=false;
+                                   break;
                               }
-                         }
-                         if(flag){
-                             for(int di=0;di<8;di++) {
-                                 int tmpri=ri+dir[di][0];
-                                 int tmpci=ci+dir[di][1];
-                                 if(!Check(tmpri,tmpci))continue;
-                                 if((-1==map[tmpri][tmpci])
-                                         &&((abs(tmpri-nbri)>1)||(abs(tmpci-nbci)>1))){
-                                     mine[tmpri][tmpci]=1;
+                          }
+                     }
+                     if(flag){
+                         if((cnt[ri][ci]-cnt[nbri][nbci])
+                                 !=(map[ri][ci]-map[nbri][nbci]))
+                             continue;
+                         for(int pi=0;pi<8;pi++){
+                             int tmpri=ri+dir[pi][0];
+                             int tmpci=ci+dir[pi][1];
+                             if(!Check(tmpri,tmpci))continue;
+                             if(-1==map[tmpri][tmpci]){
+                                 if((abs(nbri-tmpri)>1)
+                                         ||(abs(nbci-tmpci)>1)){
+                                      mine[tmpri][tmpci]=1;
                                  }
                              }
                          }
