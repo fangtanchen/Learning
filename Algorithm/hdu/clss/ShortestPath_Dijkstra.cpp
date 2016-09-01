@@ -31,6 +31,8 @@ void Init(){
 
 void Dijkstra(int si,int di){
     vis[si]=true;
+    dp[si][si]=0;
+    if(si==di)return;
     int mini=-1,minv=MAXV;
     do{
         mini=-1,minv=MAXV;
