@@ -1,0 +1,5 @@
+Case 1:
+The minimum cost between station 1 and station 4 is 3.
+The minimum cost between station 4 and station 1 is 3.
+Case 2:
+Station 1 and station 4 are not attainable.
