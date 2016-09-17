@@ -63,6 +63,12 @@ int Compare(int a[][],int b[][],int ri,int ci,int len){
 }
 void RotateBlock(int a[][],int ri,int ci,int len){
     int blen=len/2;
+    int tmp[MAXN][MAXN];
+    for(int i=ri+len-1;i>=ri;i--){
+        for(int j=ci+len-1;j>=ci;j--){
+
+        }
+    }
 }
 
 
