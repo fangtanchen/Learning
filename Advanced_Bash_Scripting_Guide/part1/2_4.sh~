@@ -1,9 +1,0 @@
-#!/bin/bash
-LOG_DIR=~/
-
-time|cat > test1.log
-date|cat > test1.log
-who|cat >  test1.log
-uptime|cat >  test1.log
-echo "Save the system times"
-cat test1.log
