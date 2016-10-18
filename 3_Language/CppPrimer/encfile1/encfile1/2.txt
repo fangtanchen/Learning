@@ -1,0 +1,78 @@
+minimal-redundancy-maximal-relevance criterion (mRMR)
+The results confirm that mRMR leads to promising improvement selection and classification accuracy. 
+
+In many pattern recognition applications, identifying the most characterizing features of the observed data, i.e., feature selection is critical to minimize the classification error.
+
+The optimal characterization condition often means the minimal classification error. 
+
+In an unsupervised situation where the classifiers are not specified, minimal error usually requires the maximal statistical dependency of the target class c on the data distribution in the subspace R^m.
+
+In terms of sequential search, the m best individual features, i.e., the top m features in the descent ordering of I, are often selected as the m features.
+
+minimal redundancy, maximal relevance framework.
+
+The first goal of this paper is to present a theoretical analysis showing that mRMR is equivalent to Max-Dependency for first-order feature selection, but is more efficient.
+
+2. Relationships of max-dependency, max-relevance, and min-redundancy
+2.1 Max-Dependency
+Desipte the theoretical value of Max-Dependency, it is often hard to get an accurate estimation for multivariate density, because of 1.the number of samples is often insufficient and 2.the multivariate density high-dimensional covariance matrix, which is usually an illposed problems.
+
+2.2Max-Relevance and Min-Redundancy
+It is likely that features selected according to Max-Relevance could have rich redundancy, i.e., the dependency among these features could be large.
+
+the following minimal redundancy condition can be added to select mutually exclusive features.
+
+2.3 Optimal First-Order Incremental Selection
+Obviously, Max-Dependency is equivalent to simultaneously maximizing the first term and minimizing the second term.
+
+3 Feature Selection Algorithms
+Our goal is to design efficient algorithm to select a compact set of features.
+In the second stage, we use other more sophisticated schemes to search a compact feature subset from the candidate feature set.
+3.1 Selecting the Candidate Feature Set
+the features thus selected often yield comparable classification errors for different classifier, because such features often form intrinsic clusters in the respective subspace.
+
+3.2 Selecting Compact Feature Subsets
+
+
+
+3.3 Characteristic Feature Space
+
+minimal-redundancy-maximal-relevance criterion (mRMR)
+The results confirm that mRMR leads to promising improvement selection and classification accuracy. 
+
+In many pattern recognition applications, identifying the most characterizing features of the observed data, i.e., feature selection is critical to minimize the classification error.
+
+The optimal characterization condition often means the minimal classification error. 
+
+In an unsupervised situation where the classifiers are not specified, minimal error usually requires the maximal statistical dependency of the target class c on the data distribution in the subspace R^m.
+
+In terms of sequential search, the m best individual features, i.e., the top m features in the descent ordering of I, are often selected as the m features.
+
+minimal redundancy, maximal relevance framework.
+
+The first goal of this paper is to present a theoretical analysis showing that mRMR is equivalent to Max-Dependency for first-order feature selection, but is more efficient.
+
+2. Relationships of max-dependency, max-relevance, and min-redundancy
+2.1 Max-Dependency
+Desipte the theoretical value of Max-Dependency, it is often hard to get an accurate estimation for multivariate density, because of 1.the number of samples is often insufficient and 2.the multivariate density high-dimensional covariance matrix, which is usually an illposed problems.
+
+2.2Max-Relevance and Min-Redundancy
+It is likely that features selected according to Max-Relevance could have rich redundancy, i.e., the dependency among these features could be large.
+
+the following minimal redundancy condition can be added to select mutually exclusive features.
+
+2.3 Optimal First-Order Incremental Selection
+Obviously, Max-Dependency is equivalent to simultaneously maximizing the first term and minimizing the second term.
+
+3 Feature Selection Algorithms
+Our goal is to design efficient algorithm to select a compact set of features.
+In the second stage, we use other more sophisticated schemes to search a compact feature subset from the candidate feature set.
+3.1 Selecting the Candidate Feature Set
+the features thus selected often yield comparable classification errors for different classifier, because such features often form intrinsic clusters in the respective subspace.
+
+3.2 Selecting Compact Feature Subsets
+
+
+
+3.3 Characteristic Feature Space
+
