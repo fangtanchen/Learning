@@ -12,7 +12,7 @@
 #include <stdlib.h>
 
 
-#include "aes.h"
+#include "openssl/aes.h"
 
 #pragma comment(lib,"libeay32.lib")
 
@@ -168,7 +168,6 @@ int main(int argc, char* argv[])
                 for(int i=nRes;i<block_size;i++){
                     inString[i]=1;
                 }
-                inString[block_size-1]=0;
                 encryptCmd(cmd,inString,passwd,outString);
                 fwrite((void*)outString, sizeof(char),block_size,outfile);
             }
@@ -179,10 +178,11 @@ int main(int argc, char* argv[])
             for(int i=0;i<block_size;i++){
                 if(outString[i]==1){
                     outString[i]=0;
+                    nRes=i;
                     break;
                 }
             }
-            fwrite((void*)outString, sizeof(char),block_size,outfile);
+            fwrite((void*)outString, sizeof(char),nRes,outfile);
 
             printf("¼ÓÃÜ½á¹ûÊä³öÔÚ%sÎÄ¼þÖÐ\n",outfilename);
         }
