@@ -13,16 +13,17 @@
 
 using namespace std;
 const int MAXT=110;
-const int MAXM=100010;
+const int MAXM=200010;
 const int MAXN=10010;
 const int INF=0x3f3f3f3f;
 
 int T,nz,nr;
 int first[MAXN],adj[MAXM],val[MAXM],to[MAXM];
 int top;
-int inq[MAXN];
 int dist[MAXN];
 int ans[MAXN];
+int inq[MAXN];
+int inval[MAXM];
 int dui[MAXM];
 int head,tail;
 bool bus[MAXN];
@@ -47,7 +48,7 @@ void Add(int u,int v,int w){
     first[u]=top++;
 }
 void Push(int x){
-    if((tail+1)%MAXM==head){
+    if((tail+2)%MAXM==head){
         printf("the queue is full\n");
         return;
     }
@@ -65,7 +66,7 @@ int Top(){
 void Pop(){
     if(tail==head){
          printf("the queue is empty\n");
-         return -1;
+         return ;
     }
     head=(head+1)%MAXM;
 }
@@ -74,8 +75,8 @@ void SPFA(int st){
     memset(inq,-1,sizeof(inq));
     memset(dist,0x3f,sizeof(dist));
     head=tail=0;
-    dist[st]=0;
     inq[st]=tail;
+    dist[st]=1;
     Push(st);
     while(tail!=head){
         int u=Top();
@@ -84,10 +85,12 @@ void SPFA(int st){
         for(int pos=first[u];pos!=-1;pos=adj[pos]){
             int v=to[pos];
             int w=dist[u]+1;
-            if(w<dist[v]){
-
+            if(w>=dist[v])continue;
+            dist[v]=w;
+            if(inq[v]<0){
+                inq[v]=tail;
+                Push(v);
             }
-
         }
     }
 }
@@ -100,6 +103,7 @@ int main(){
     cin.sync_with_stdio(false);
     cin>>T;
     while(T--){
+        Init();
          cin>>nz>>nr;
          for(int i=0;i<nz;i++){
              int id,mz;
@@ -134,7 +138,7 @@ int main(){
                  resi=i;
              }
          }
-         cout<<res+1<<" "<<resi<<endl;
+         cout<<res<<" "<<resi<<endl;
     }
 
 	#ifdef L_JUDGE
