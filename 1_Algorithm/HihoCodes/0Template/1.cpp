@@ -13,11 +13,6 @@
 
 using namespace std;
 const int MAXN=1005;
-const int MAXM=6;
-const int MAXS=1025;
-const int MOD=1e9+7;
-
-int dp[MAXN][MAXM][MAXS];
 
 
 int main(){
