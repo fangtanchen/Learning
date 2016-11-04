@@ -63,6 +63,7 @@ int main(){
              for(int ki=0;ki<K;ki++){
                  int i,x,y;
                  scanf("%d%d%d",&i,&x,&y);
+                 if((x==0)||(0==y))continue;
                  x+=add1;y+=add2;
                  Add(i,x);
                  Add(i,y);
