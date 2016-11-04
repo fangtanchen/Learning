@@ -12,12 +12,71 @@
 #endif
 
 using namespace std;
+const int MAXN=110;
+const int dir[4][2]={{1,0},{-1,0},{0,1},{0,-1}};
+
+bool G[MAXN][MAXN];
+bool vis[MAXN*MAXN];
+int mp[MAXN*MAXN];
+int N,M,K;
+
+void Init(){
+    memset(G,true,sizeof(G));
+    memset(vis,false,sizeof(vis));
+    memset(mp,-1,sizeof(mp));
+}
+
+int FindPath(int u){
+    int ri=u/100;
+    int ci=u%100;
+    for(int di=0;di<4;di++){
+        int tmpri=ri+dir[di][0];
+        int tmpci=ci+dir[di][1];
+        if(!G[tmpri][tmpci])continue;
+        int v=100*tmpri+tmpci;
+        if(vis[v])continue;
+        vis[v]=true;
+        if(mp[v]==-1||FindPath(mp[v])){
+             mp[u]=v;
+             mp[v]=u;
+             return 1;
+        }
+    }
+    return 0;
+}
 
 int main(){
 	#ifdef L_JUDGE
 		freopen("in.txt","r",stdin);
 		freopen("out.txt","w",stdout);
 	#endif
+
+        while(scanf("%d%d",&N,&M),N||M){
+             Init();
+             scanf("%d",&K);
+             for(int ki=0;ki<K;ki++){
+                 int u,v;
+                 scanf("%d%d",&u,&v);
+                 G[u][v]=false;
+             }
+             int ans=0;
+             for(int ri=1;ri<=N;ri++){
+                 for(int ci=1;ci<=M;ci++){
+                     int u=ri*100+ci;
+                     if(((ri+ci)%2==1)&&(mp[u]==-1)){
+                         memset(vis,false,sizeof(vis));
+                         vis[u]=true;
+                         ans+=FindPath(u);
+                     }
+                 }
+             }
+             printf("%d",ans);
+             for(int ri=1;ri<=N;ri++){
+                 for(int ci=1;ci<=M;ci++){
+                 }
+             }
+        }
+
 
 	#ifdef L_JUDGE
 		fclose(stdin);
