@@ -13,11 +13,12 @@
 
 using namespace std;
 const int MAXN=110;
+const int MAXM=2e5;
 const int dir[4][2]={{1,0},{-1,0},{0,1},{0,-1}};
 
 bool G[MAXN][MAXN];
-bool vis[MAXN*MAXN];
-int mp[MAXN*MAXN];
+bool vis[MAXM];
+int mp[MAXM];
 int N,M,K;
 
 void Init(){
@@ -33,13 +34,13 @@ bool InMap(int ri,int ci){
 }
 
 int FindPath(int u){
-    int ri=u/100;
-    int ci=u%100;
+    int ri=u/1000;
+    int ci=u%1000;
     for(int di=0;di<4;di++){
         int tmpri=ri+dir[di][0];
         int tmpci=ci+dir[di][1];
         if(!InMap(tmpri,tmpci))continue;
-        int v=100*tmpri+tmpci;
+        int v=1000*tmpri+tmpci;
         if(vis[v])continue;
         vis[v]=true;
         if(mp[v]==-1||FindPath(mp[v])){
@@ -70,7 +71,7 @@ int main(){
              int ans=0;
              for(int ri=1;ri<=N;ri++){
                  for(int ci=1;ci<=M;ci++){
-                     int u=ri*100+ci;
+                     int u=ri*1000+ci;
                      if(((ri+ci)%2==1)&&(G[ri][ci])&&(mp[u]==-1)){
                          memset(vis,false,sizeof(vis));
                          vis[u]=true;
@@ -81,11 +82,11 @@ int main(){
              printf("%d\n",ans);
              for(int ri=1;ri<=N;ri++){
                  for(int ci=1;ci<=M;ci++){
-                     int tmp=ri*100+ci;
+                     int tmp=ri*1000+ci;
                      if(mp[tmp]!=-1){
                           int ntmp=mp[tmp];
-                          int nri=ntmp/100;
-                          int nci=ntmp%100;
+                          int nri=ntmp/1000;
+                          int nci=ntmp%1000;
                           printf("(%d,%d)--(%d,%d)\n",ri,ci,nri,nci);
                           mp[tmp]=mp[ntmp]=-1;
                      }
