@@ -26,13 +26,19 @@ void Init(){
     memset(mp,-1,sizeof(mp));
 }
 
+
+bool InMap(int ri,int ci){
+    return (ri>=1)&&(ri<=N)
+        &&(ci>=1)&&(ci<=M)&&G[ri][ci];
+}
+
 int FindPath(int u){
     int ri=u/100;
     int ci=u%100;
     for(int di=0;di<4;di++){
         int tmpri=ri+dir[di][0];
         int tmpci=ci+dir[di][1];
-        if(!G[tmpri][tmpci])continue;
+        if(!InMap(tmpri,tmpci))continue;
         int v=100*tmpri+tmpci;
         if(vis[v])continue;
         vis[v]=true;
@@ -51,7 +57,9 @@ int main(){
 		freopen("out.txt","w",stdout);
 	#endif
 
+        int cai=0;
         while(scanf("%d%d",&N,&M),N||M){
+            //if(cai)printf("\n");
              Init();
              scanf("%d",&K);
              for(int ki=0;ki<K;ki++){
@@ -63,18 +71,28 @@ int main(){
              for(int ri=1;ri<=N;ri++){
                  for(int ci=1;ci<=M;ci++){
                      int u=ri*100+ci;
-                     if(((ri+ci)%2==1)&&(mp[u]==-1)){
+                     if(((ri+ci)%2==1)&&(G[ri][ci])&&(mp[u]==-1)){
                          memset(vis,false,sizeof(vis));
                          vis[u]=true;
                          ans+=FindPath(u);
                      }
                  }
              }
-             printf("%d",ans);
+             printf("%d\n",ans);
              for(int ri=1;ri<=N;ri++){
                  for(int ci=1;ci<=M;ci++){
+                     int tmp=ri*100+ci;
+                     if(mp[tmp]!=-1){
+                          int ntmp=mp[tmp];
+                          int nri=ntmp/100;
+                          int nci=ntmp%100;
+                          printf("(%d,%d)--(%d,%d)\n",ri,ci,nri,nci);
+                          mp[tmp]=mp[ntmp]=-1;
+                     }
                  }
              }
+             cai++;
+             printf("\n");
         }
 
 
