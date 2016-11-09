@@ -12,8 +12,8 @@
 #endif
 
 using namespace std;
-const int MAXN=1010;
-const int MAXM=30000;
+const int MAXN=40100;
+const int MAXM=400000;
 const int MODN=300;
 
 int l[MAXN][2];
@@ -43,8 +43,8 @@ int FindPath(int u){
         if(vis[v])continue;
         vis[v]=true;
         if((-1==mp[v])||FindPath(mp[v])){
-            mp[u]=v;
             mp[v]=u;
+            mp[u]=v;
             return 1;
         }
     }
@@ -62,7 +62,7 @@ int main(){
     while(T--){
          Init();
          cin>>c>>d>>v;
-         for(int vi=0;vi<v;vi++){
+         for(int vi=1;vi<=v;vi++){
              char ch;
              int id;
              for(int i=0;i<2;i++){
@@ -70,7 +70,7 @@ int main(){
                  if(ch=='D')id+=MODN;
                  l[vi][i]=id;
              }
-             for(int ui=0;ui<vi;ui++){
+             for(int ui=1;ui<vi;ui++){
                  if(l[ui][0]==l[vi][1]
                          ||l[ui][1]==l[vi][0]){
                      Add(ui,vi);
@@ -79,8 +79,9 @@ int main(){
              }
          }
          int ans=0;
-         for(int ui=0;ui<v;ui++){
-             if((mp[ui]==-1)){
+         for(int ui=1;ui<=v;ui++){
+            if((mp[ui]==-1))
+            {
                  memset(vis,false,sizeof(vis));
                  vis[ui]=true;
                  ans+=FindPath(ui);

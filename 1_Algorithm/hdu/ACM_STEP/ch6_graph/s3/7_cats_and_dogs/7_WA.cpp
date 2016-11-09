@@ -13,13 +13,14 @@
 
 using namespace std;
 const int MAXN=1010;
+const int MAXM=5e5+10;
 const int MODN=200;
 
 int l[MAXN][2];
 int c,d,v,T;
 bool vis[MAXN];
 int mp[MAXN];
-int top,first[MAXN],to[2*MAXN],adj[2*MAXN];
+int top,first[MAXN],to[MAXM],adj[MAXM];
 
 void Init(){
      memset(vis,false,sizeof(vis));
