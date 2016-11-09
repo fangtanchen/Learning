@@ -16,7 +16,7 @@ using namespace std;
 int main(){
 	#ifdef L_JUDGE
 		freopen("in.txt","r",stdin);
-		freopen("out.txt","w",stdout);
+//		freopen("out.txt","w",stdout);
 	#endif
 
 	#ifdef L_JUDGE
