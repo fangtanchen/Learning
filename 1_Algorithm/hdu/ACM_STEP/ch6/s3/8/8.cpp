@@ -64,7 +64,9 @@ int FindPath(int uri,int uci,int uid){
         int vid=vri*MODN+vci;
         if((!InMap(vri,vci))||vis[vid])continue;
         vis[vid]=true;
-        if(mp[vid]==-1||FindPath(vri,vci,vid)){
+        int tmpri=mp[vid]/MODN;
+        int tmpci=mp[vid]%MODN;
+        if(mp[vid]==-1||FindPath(tmpri,tmpci,mp[vid])){
             mp[uid]=vid;
             mp[vid]=uid;
             return 1;
