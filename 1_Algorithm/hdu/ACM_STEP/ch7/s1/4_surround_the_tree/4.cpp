@@ -50,10 +50,11 @@ void Pop(){
     top--;
 }
 
-
-int Cmp(const Node &p1,const Node &p2){
-    return (p2.x-pt[0].x)*(p1.y-pt[0].y)
+// true: not exchange;  false: exchange
+bool Cmp(const Node &p1,const Node &p2){
+    int ret=(p2.x-pt[0].x)*(p1.y-pt[0].y)
         -(p2.y-pt[0].y)*(p1.x-pt[0].x);
+    return ret<0;
 }
 int Direction(const Node &p0,const Node &p1,const Node &p2){
     return (p2.x-p0.x)*(p1.y-p0.y)
@@ -71,15 +72,29 @@ int main(){
 		//freopen("out.txt","w",stdout);
 	#endif
         while(scanf("%d",&N),N){
-            int mini=1;
+            int mini=0;
             for(int i=0;i<N;i++){
                 scanf("%d%d",&pt[i].x,&pt[i].y);
                 if(pt[i].y<pt[mini].y){
                     mini=i;
                 }
             }
+            if(N==1){
+                printf("%.2lf\n",0.0);
+                continue;
+            }else if(N==2){
+                printf("%.2lf\n",Distance(pt[0],pt[1]));
+                continue;
+            }
             swap(pt[0],pt[mini]);
             sort(pt+1,pt+N,Cmp);
+/*
+            for(int i=1;i<N;i++){
+                for(int j=i+1;j<N;j++){
+                    printf("%d\n",Direction(pt[0],pt[i],pt[j]));
+                }
+            }
+*/
             top=0;
             Push(0);Push(1);Push(2);
             int p1,p2;
