@@ -55,7 +55,7 @@ void Del(int u,int v){
 
 void DFS(int u){
     int pos;
-    while(pos=first[u]){
+    while(pos=first[u],pos!=-1){// pos 可以取0,导致循环结束，而真正的结束点是-1
         int v=to[pos];
         Del(u,v);
         DFS(v);
@@ -78,7 +78,12 @@ int main(){
         Add(u,v);
     }
     DFS(0);
-
+    high=fac2[N-2];
+    for(int i=0;i<fac2[N];i++){
+        if(path[i]&high)printf("1");
+        else printf("0");
+    }
+    printf("\n");
 
 
 	#ifdef L_JUDGE
