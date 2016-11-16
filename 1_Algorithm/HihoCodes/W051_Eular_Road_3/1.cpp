@@ -77,7 +77,7 @@ int main(){
         if(v>=high)v-=high;
         Add(u,v);
     }
-    DFS(1);
+    DFS(0);
 
 
 
