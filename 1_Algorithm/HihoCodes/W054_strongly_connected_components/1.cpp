@@ -17,9 +17,8 @@ using namespace std;
 const int MAXN=2e4+10;
 const int MAXM=1e5+10;
 
-int top,first[MAXN],adj[MAXM],to[MAXM];
-int newtop,newfirst[MAXN],newadj[MAXM],newto[MAXM];
-int weight[MAXN];
+int top[3],first[3][MAXN],adj[3][MAXM],to[3][MAXM];
+long long weight[MAXN];
 bool vis[MAXN];
 bool instack[MAXN];
 int sta[MAXN],tag[MAXN];
@@ -27,17 +26,15 @@ int dfn[MAXN],low[MAXN];
 int indegree[MAXN];
 int N,M;
 int num_components=0;
-int newweight[MAXN];
+long long newweight[MAXN];
+queue<int> Q;
 
 void Init(){
-    top=0;
     MEM(first,-1);
     MEM(adj,-1);
     MEM(to,-1);
-    newtop=0;
-    MEM(newfirst,-1);
-    MEM(newadj,-1);
-    MEM(newto,-1);
+    MEM(top,0);
+
     MEM(vis,false);
     MEM(instack,false);
     MEM(tag,-1);
@@ -59,15 +56,9 @@ void Stack_Pop(){
 }
 
 void Add(int u,int v,int c){
-    if(c==1){
-        adj[top]=first[u];
-        to[top]=v;
-        first[u]=top++;
-    }else{
-        newadj[newtop]=newfirst[u];
-        newto[newtop]=v;
-        newfirst[u]=newtop++;
-    }
+        adj[c][top[c]]=first[c][u];
+        to[c][top[c]]=v;
+        first[c][u]=top[c]++;
 }
 
 void Tarjan(int u){
@@ -77,8 +68,8 @@ void Tarjan(int u){
     Stack_Push(u);
     instack[u]=true;
 
-    for(int pos=first[u];pos!=-1;pos=adj[pos]){
-         int v=to[pos];
+    for(int pos=first[0][u];pos!=-1;pos=adj[0][pos]){
+         int v=to[0][pos];
          if(!vis[v]){
              Tarjan(v);
              low[u]=min(low[u],low[v]);
@@ -106,21 +97,49 @@ int main(){
     Init();
     scanf("%d%d",&N,&M);
     for(int ni=1;ni<=N;ni++){
-         scanf("%d",weight+ni);
+         scanf("%lld",weight+ni);
     }
     for(int mi=0;mi<M;mi++){
          int u,v;
          scanf("%d%d",&u,&v);
-         Add(u,v,1);
+         Add(u,v,0);
     }
 
     Tarjan(1);
     MEM(indegree,0);
+    MEM(newweight,0);
     for(int ni=1;ni<=N;ni++){
         if((tag[ni]!=-1)){
              newweight[tag[ni]]+=weight[ni];
+             for(int pos=first[0][ni];pos!=-1;pos=adj[0][pos]){
+                  int v=to[0][pos];
+                  if(tag[v]!=tag[ni]){
+                      Add(tag[ni],tag[v],1);
+                      indegree[tag[v]]++;
+                      Add(tag[v],tag[ni],2);
+                  }
+             }
         }
     }
+    Q.push(tag[1]);
+    long long ans=0;
+    while(!Q.empty()){
+         int u=Q.front();
+         Q.pop();
+         long long wm=0;
+         for(int pos=first[2][u];pos!=-1;pos=adj[2][pos]){
+              int v=to[2][pos];
+              wm=max(wm,newweight[v]);
+         }
+         newweight[u]+=wm;
+         ans=max(ans,newweight[u]);
+         for(int pos=first[1][u];pos!=-1;pos=adj[1][pos]){
+              int v=to[1][pos];
+              indegree[v]--;
+              if(indegree[v]==0)Q.push(v);
+         }
+    }
+    printf("%lld\n",ans);
 
 
 
