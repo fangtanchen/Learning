@@ -24,6 +24,7 @@ int low[MAXN],dfn[MAXN];
 bool vis[MAXN],instack[MAXN];
 int N,M;
 long long int weight[MAXN],newweight[MAXN];
+int tag_cnt=0;
 queue<int> Q;
 
 
@@ -50,7 +51,6 @@ void Add(int u,int v,int c){
 
 void Tarjan(int u){
     static int counter=1;
-    static int tag_cnt=0;
     low[u]=dfn[u]=counter++;
     vis[u]=true;
     instack[u]=true;
@@ -104,16 +104,15 @@ int main(){
             }
         }
     }
-    for(int ni=1;ni<=N;ni++){
+    for(int ni=1;ni<=tag_cnt;ni++){
         {
-            int u=tag[ni];
             MEM(vis,false);
-            for(int pos=first[1][u];pos!=-1;pos=adj[1][pos]){
+            for(int pos=first[1][ni];pos!=-1;pos=adj[1][pos]){
                 int v=to[1][pos];
-                if((!vis[v]) && (u!=v)){
+                if((!vis[v]) ){
                     vis[v]=true;
-                    Add(u,v,2);
-                    Add(v,u,3);
+                    Add(ni,v,2);
+                    Add(v,ni,3);
                     indegree[v]++;
                 }
             }
