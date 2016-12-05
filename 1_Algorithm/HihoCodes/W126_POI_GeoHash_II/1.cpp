@@ -16,9 +16,13 @@ using namespace std;
 #define mem(a,b) memset(a,b,sizeof(a))
 typedef pair<int,int> pii;
 
-const int MAXN=5e4+10;
+const int MAXN=1e5+10;
 const int MAXM=110;
+const int RADIUS=6e6;
 const char base32[40]="0123456789bcdefghjkmnpqrstuvwxyz";
+const int dir[0]={{-1,-1},{-1,0},{-1,1},
+    {0,-1},{0,0},{0,1},
+    {1,-1},{1,0},{1,1}}
 map<char,int> mp;
 
 struct Node{
@@ -35,14 +39,19 @@ int N,M;
 Node trees[MAXN];
 int tree_len;
 int root;
-vector<vii>
+vector<pii> G[MAXN];
+int Glen;
+double  dlat,dlon;
 
 void Init(){
     root=0;
     tree_len=1;
+    Glen=0;
     for(int i=0;i<32;i++){
         mp[base32[i]]=i;
     }
+    dlat=180.0/(1<<15);
+    dlon=360.0/(1<<15);
 }
 
 void Encode(double lon,double lat,int prec,char *ret){
@@ -108,6 +117,35 @@ void Decode(char *str,double &x,double &y){
     y=(lon_int[0]+lon_int[1])/2;
 }
 
+
+void TrieInsert(int rt,double lat,double lon,char *str){
+    if(str[0]==0){
+        if(trees[rt].bleaf==-1){
+            trees[rt].bleaf=Glen++;
+        }
+        G[trees[rt].bleaf].push_back(pii(lat,lon));
+        return;
+    }else{
+        int noi=mp[str[0]];
+        if(-1==trees[rt].nodes[noi]){
+            trees[rt].nodes[noi]=tree_len++;
+        }
+        TrieInsert(tree[rt].nodes[noi],lat,lon,str+1);
+    }
+}
+
+void Polar2Cart(double radius,double lat,double lon,double &x,double &y,double &z){
+    x=radius*cos(lat)*cos(lon);
+    y=radius*cos(lat)*sin(lon);
+    z=radius*sin(lat);
+}
+
+void Cart2Polar(double x,double y,double z,double radius,double &lat,double &lon){
+    lat=asin(z/radius);
+    lon=asin(y/r/cos(lat));
+}
+
+
 int main(){
 	#ifdef L_JUDGE
 		freopen("in.txt","r",stdin);
@@ -115,6 +153,22 @@ int main(){
 	#endif
     Init();
     scanf("%d%d",&N,&M);
+    for(int ni=0;ni<N;ni++){
+        double lat,lon;
+        scanf("%lf%lf",&lat,&lon);
+        char ret[20];
+        Encode(lat,lon,6,ret);
+        TrieInsert(root,lat,lon,ret);
+    }
+    for(int mi=0;mi<M;mi++){
+        double lat,lon;
+        scanf("%lf%lf",&lat,&lon);
+        for(int di=0;di<9;di++){
+            Cart2Polar(x+dir[di][0],y+dir[di][1],z,RADIUS,lat,lon);
+            char ret[20];
+            Encode(lat,lon,6,ret);
+        }
+    }
 
 	#ifdef L_JUDGE
 		fclose(stdin);
