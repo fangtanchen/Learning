@@ -5,6 +5,7 @@
 #include<algorithm>
 #include<map>
 #include<cmath>
+#include<set>
 
 #define U_DEBUG
 #define L_JUDGE
@@ -17,9 +18,9 @@ using namespace std;
 #define mem(a,b) memset(a,b,sizeof(a))
 typedef pair<double ,double > pdd;
 
-const int MAXN=1e5+10;
+const int MAXN=1e6+10;
 const int MAXM=110;
-const int RADIUS=6e6;
+const double RADIUS=6e6;
 const char base32[40]="0123456789bcdefghjkmnpqrstuvwxyz";
 const double PI=acos(-1.0);
 const int dir[9][2]={{-1,-1},{-1,0},{-1,1},
@@ -56,13 +57,13 @@ void Init(){
     for(int i=0;i<32;i++){
         mp[base32[i]]=i;
     }
-    dlat=PI/(1<<15);
-    dlon=2.0*PI/(1<<15);
+    dlat=180.0/(1<<15);//fd
+    dlon=360.0/(1<<15);//fdfd
 }
 
 void Encode(double lon,double lat,int prec,char *ret){
-    double lon_int[2]={-PI,PI};
-    double lat_int[2]={-PI/2,PI/2};
+    double lon_int[2]={-180,180};
+    double lat_int[2]={-90,90};
     int bits=0;
     int len=5*prec;
     int reti=0;
@@ -95,8 +96,8 @@ void Encode(double lon,double lat,int prec,char *ret){
 }
 
 void Decode(char *str,double &x,double &y){
-    double lon_int[2]={-PI,PI};
-    double lat_int[2]={-PI/2,PI/2};
+    double lon_int[2]={-180,180};
+    double lat_int[2]={-90,90};
     bool blon=true;
     for(int i=0;str[i];i++){
         int bits=mp[str[i]];
@@ -164,8 +165,9 @@ void Cart2Polar(double x,double y,double z,double radius,double &lat,double &lon
 }
 
 double SurDist(pdd A,pdd B){
-    return RADIUS*acos(cos(A.first)*cos(B.first)*cos(A.second-B.second)
-            +sin(A.first)*sin(B.first));
+//    return RADIUS*acos(cos(A.first)*cos(B.first)*cos(A.second-B.second)
+//            +sin(A.first)*sin(B.first));
+    return RADIUS*acos(cos(A.first-B.first)*cos(A.second-B.second));
 }
 
 
@@ -180,29 +182,33 @@ int main(){
     for(int ni=0;ni<N;ni++){
         double lat,lon;
         scanf("%lf%lf",&lat,&lon);
-        lat=Angle2Rad(lat);lon=Angle2Rad(lon);
+//        lat=Angle2Rad(lat);lon=Angle2Rad(lon);
         char ret[20];
         Encode(lat,lon,6,ret);
-        TrieInsert(root,lat,lon,ret);
+        TrieInsert(root,Angle2Rad(lat),Angle2Rad(lon),ret);
     }
 
     for(int mi=0;mi<M;mi++){
         double lat,lon;
         int ans=0;
         scanf("%lf%lf",&lat,&lon);
-        lat=Angle2Rad(lat);lon=Angle2Rad(lon);
+        set<int> s;
+        s.clear();
+        double plat=Angle2Rad(lat),plon=Angle2Rad(lon);
         for(int di=0;di<9;di++){
             double tmplat=lat+dir[di][0]*dlat;
             double tmplon=lon+dir[di][1]*dlon;
             char ret[20];
             int id=-1;
-            Encode(tmplat,tmplon,6,ret);
+            Encode((tmplat),(tmplon),6,ret);
             TrieQuery(root,ret,id);
             if(id==-1)continue;
+            if(s.count(id)>0)continue;
+            s.insert(id);
             int tt=trees[id].bleaf;
             for(int ki=G[tt].size()-1;
                     ki>=0;ki--){
-                 ans+=(SurDist(pdd(lat,lon),G[tt][ki])<=500);
+                 ans+=(SurDist(pdd(plat,plon),G[tt][ki])<=500);
             }
         }
         printf("%d\n",ans);
