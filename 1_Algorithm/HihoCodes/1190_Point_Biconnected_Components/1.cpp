@@ -69,7 +69,8 @@ void Tarjan(int u){
                      ecolor[tmpi]=ncolor;
                 }while(tmpi!=mi);
                 ncolor++;
-            }else if(low[v]>=dfn[u]){
+            }
+            if(low[v]>=dfn[u]){
                 int tmpi;
                 do{
                      tmpi=estack[estack[0]--];
@@ -103,6 +104,7 @@ int main(){
 
     MEM(estack,-1);
     for(int mi=1;mi<M;mi++){
+        if(ecolor[mi]==-1)ecolor[mi]=1;
         if(estack[ecolor[mi]]==-1) {
              estack[ecolor[mi]]=mi;
         }
