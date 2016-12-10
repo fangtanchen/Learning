@@ -3,6 +3,7 @@
 #include<cstring>
 //#include<vector>
 #include<algorithm>
+#include<queue>
 
 #define U_DEBUG
 #define L_JUDGE
@@ -19,10 +20,12 @@ const int MAXS=3;
 #define MEM(x,a) memset(x,a,sizeof(x))
 int top[MAXS],first[MAXS][MAXN],adj[MAXS][MAXM],to[MAXS][MAXM];
 bool vis[MAXN];
-int w[MAXN],nw[MAXN];
+long long int w[MAXN],nw[MAXN];
 int pstack[MAXN],instack[MAXN];
 int low[MAXN],dfn[MAXN];
-int qcolor[MAXN];
+int pcolor[MAXN];
+int in[MAXN],out[MAXN];
+queue<int> Q;
 int N,M;
 
 void Init(){
@@ -37,6 +40,9 @@ void Init(){
     MEM(dfn,0x5f);
     pstack[0]=0;
     MEM(nw,0);
+    MEM(in,0);
+    MEM(out,0);
+    MEM(pcolor,-1);
 }
 
 void Add(int type,int u,int v){
@@ -65,10 +71,39 @@ void Tarjan(int u){
         do{
             tmp=pstack[pstack[0]--];
             instack[tmp]=false;
-            qcolor[tmp]=u;
+            pcolor[tmp]=u;
             nw[u]+=w[tmp];
         }while(tmp!=u);
     }
+}
+
+long long  TopologicalSort(int rt){
+    long long ans=0;
+    MEM(vis,false);
+    while(!Q.empty())Q.pop();
+    Q.push(rt);
+    while(!Q.empty()){
+         int u=Q.front();
+         Q.pop();
+         if(vis[u])continue;
+         vis[u]=true;
+         long long int tmpW=0;
+         for(int pos=first[2][u];pos!=-1;pos=adj[2][pos]){
+             int v=to[2][pos];
+             if(vis[v])tmpW=max(nw[v],tmpW);
+         }
+         nw[u]+=tmpW;
+         ans=max(ans,nw[u]);
+         for(int pos=first[1][u];pos!=-1;pos=adj[1][pos]){
+             int v=to[1][pos];
+             in[v]--;
+             if(0==in[v]){
+                 Q.push(v);
+             }
+         }
+    }
+    return ans;
+
 }
 
 int main(){
@@ -79,7 +114,7 @@ int main(){
     Init();
     scanf("%d%d",&N,&M);
     for(int ni=1;ni<=N;ni++){
-        scanf("%d",w+ni);
+        scanf("%lld",w+ni);
     }
     for(int mi=0;mi<M;mi++){
          int u,v;
@@ -87,6 +122,19 @@ int main(){
          Add(0,u,v);
     }
     Tarjan(1);
+    for(int ni=1;ni<=N;ni++){
+        if(pcolor[ni]==-1)continue;
+        for(int pos=first[0][ni];pos!=-1;pos=adj[0][pos]){
+            int v=to[0][pos];
+            if(pcolor[v]==-1)continue;
+            if(pcolor[ni]==pcolor[v])continue;
+            Add(1,pcolor[ni],pcolor[v]);
+            Add(2,pcolor[v],pcolor[ni]);
+            in[pcolor[v]]++;
+        }
+    }
+    printf("%lld\n",TopologicalSort(pcolor[1]));
+
 
 
 	#ifdef L_JUDGE
