@@ -13,34 +13,22 @@
 
 using namespace std;
 const int MAXN=1e6+5;
-const int MAXS=26;
 
-#define MEM(x,a) memset(x,a,sizeof(x))
 
-int maxlen[MAXN*2],minlen[MAXN*2],trans[MAXN*2][MAXS],slink[MAXN*2];
-int n;
 char str[MAXN];
-
-void Init(){
-    MEM(maxlen,0) ;
-    MEM(minlen,0);
-    MEM(trans,-1);
-    MEM(slink,-1);
-    n=1;
-}
+int maxlen[2*MAXN],minlen[2*MAXN],trans[2*MAXN][26],slink[2*MAXN];
+int n;
 
 int NewState(int _maxlen,int _minlen,int *_trans,int _slink){
-    maxlen[n]=_maxlen;
-    minlen[n]=_minlen;
-    slink[n]=_slink;
-    for(int i=0;i<MAXS;i++){
-        if(_trans!=NULL){
-            trans[n][i]=_trans[i];
-        }else{
-             trans[n][i]=-1;
-        }
-    }
-    return n++;
+     maxlen[n]=_maxlen;
+     minlen[n]=_minlen;
+     slink[n]=_slink;
+     if(_trans!=NULL){
+         for(int i=0;i<26;i++){
+             trans[n][i]=_trans[i];
+         }
+     }
+     return n++;
 }
 
 int AddState(char ch,int u){
@@ -52,47 +40,50 @@ int AddState(char ch,int u){
         v=slink[v];
     }
     if(v==-1){
-        minlen[z]=1;
-        slink[z]=0;
-        return z;
+         minlen[z]=1;
+         slink[z]=0;
+         return z;
     }
     int x=trans[v][c];
     if(maxlen[v]+1==maxlen[x]){
-         minlen[z]=maxlen[x]+1;
          slink[z]=x;
+         minlen[z]=maxlen[x]+1;
          return z;
     }
     int y=NewState(maxlen[v]+1,-1,trans[x],slink[x]);
     slink[y]=slink[x];
-    minlen[x]=maxlen[y]+1;
     slink[x]=y;
+    minlen[x]=maxlen[y]+1;
     slink[z]=y;
     minlen[z]=maxlen[y]+1;
+
     int w=v;
     while((w!=-1)&&(trans[w][c]==x)){
-        trans[w][c]=y;
-        w=slink[w];
+         trans[w][c]=y;//fff
+         w=slink[w];
     }
     minlen[y]=maxlen[slink[y]]+1;
     return z;
 }
-
 
 int main(){
 	#ifdef L_JUDGE
 		freopen("in.txt","r",stdin);
 //		freopen("out.txt","w",stdout);
 	#endif
-    Init();
+    maxlen[0]=minlen[0]=0;
     scanf("%s",str);
-    int len=strlen(str);
     int u=0;
+    int len=strlen(str);
+    memset(trans,-1,sizeof(trans));
+    memset(slink,-1,sizeof(slink));
+    n=1;
     for(int i=0;i<len;i++){
          u=AddState(str[i],u);
     }
     long long int ans=0;
-    for(int i=1;i<n;i++){
-        ans+=maxlen[i]-minlen[i]+1;
+    for(int ni=1;ni<n;ni++){
+        ans+=maxlen[ni]-minlen[ni]+1;
     }
     printf("%lld\n",ans);
 
