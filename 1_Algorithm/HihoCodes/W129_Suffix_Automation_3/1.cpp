@@ -99,8 +99,9 @@ void TopologicalSort(){
             while(!Q.empty()){
                 int now=Q.front();
                 Q.pop();
-                int next=slink[now];
                 vis[now]=true;
+                int next=slink[now];
+                if(-1==next)continue;
                 in[next]--;
                 if(0==in[next]){
                     Q.push(next);
@@ -126,9 +127,9 @@ int main(){
     }
     TopologicalSort();
     for(int i=0;i<n;i++){
-         ans[maxlen[i]]=endpos[i];
+        ans[maxlen[i]]=max((long long int)endpos[i],ans[maxlen[i]]);
     }
-    for(int i=len-1;i>=0;i--){
+    for(int i=len-1;i>=1;i--){
         ans[i]=max(ans[i],ans[i+1]);
     }
     for(int i=1;i<=len;i++){
