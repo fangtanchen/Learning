@@ -4,6 +4,7 @@
 //#include<vector>
 #include<algorithm>
 #include<utility>
+#include<cmath>
 
 #define U_DEBUG
 #define L_JUDGE
@@ -17,19 +18,19 @@ const int MAXN=1e5+20;
 const int INF=0x3f3f3f3f;
 typedef pair<double,double> pdd;
 
-pdd P[MAXN],X[MAXN],Y[MAXN];
+pdd X[MAXN],Y[MAXN];
 int N;
 
 bool CmpX(pdd p1,pdd p2){
     if(p1.first<p2.first)return true;
-    else if((p1.first==p2.first)&&(p1.second<p2.second))
+    else if((p1.first==p2.first)&&(p1.second<=p2.second))
         return true;
     return false;
 }
 
 bool CmpY(pdd p1,pdd p2){
     if(p1.second<p2.second)return true;
-    else if((p1.second==p2.second)&&(p1.first<p2.first))
+    else if((p1.second==p2.second)&&(p1.first<=p2.first))
         return true;
     return false;
 }
@@ -44,31 +45,49 @@ double Solve(pdd *X,pdd *Y,int num){
         double ret=INF;
         for(int i=0;i<num;i++){
             for(int j=i+1;j<num;j++){
-                ret=min(ret,Dist(P[i],P[j]));
+                ret=min(ret,Dist(X[i],X[j]));
             }
         }
         return ret;
     }
-    int lnum=num/2,rnum=num-lnum;
-    double lmid=(X[lnum-1].first+X[lnum].first)/2;
-    pdd *Xl=new pdd[lnum];
-    pdd *Xr=new pdd[rnum];
+    int lnum=num/2;
+    if((X[lnum-1].first==X[lnum].first)
+            &&(X[lnum-1].second==X[lnum].second))
+        return 0;
+    int rnum=num-lnum;
     pdd *Yl=new pdd[lnum];
     pdd *Yr=new pdd[rnum];
-    for(int i=0;i<lnum;i++){
-        Xl[i]=P[i];
-    }
-    for(int i=0,j=lnum;i<rnum;i++){
-        Xr[i]=P[j];
-    }
     int yllen=0,yrlen=0;
     for(int i=0;i<num;i++){
-        if(Y[i].first<lmid){
+        if(CmpX(Y[i],X[lnum-1])){
             Yl[yllen++]=Y[i];
-            if(yllen==lnum)break;
+        }else{
+            Yr[yrlen++]=Y[i];
         }
     }
-
+    double ret1=Solve(X,Yl,lnum);
+    double ret2=Solve(X+lnum,Yr,rnum);
+    double ret=min(ret1,ret2);
+    delete[] Yl;
+    delete[] Yr;
+    int l=0,r=num-1;
+    double lbord=X[lnum-1].first-ret;
+    double rbord=X[lnum-1].first+ret;
+    pdd *tmpY=new pdd[num];
+    int tmplen=0;
+    for(int i=0;i<num;i++){
+        if((Y[i].first>=lbord)&&(Y[i].first<=rbord)){
+            tmpY[tmplen++]=Y[i];
+        }
+    }
+    for(int i=0;i<tmplen;i++){
+        for(int j=1;j<=7;j++){
+            if(i+j>=tmplen)break;
+            ret=min(ret,Dist(tmpY[i],tmpY[i+j]));
+        }
+    }
+    delete[] tmpY;
+    return ret;
 }
 
 int main(){
@@ -78,14 +97,13 @@ int main(){
 	#endif
         while((EOF!=scanf("%d",&N))&&N){
             for(int ni=0;ni<N;ni++){
-                scanf("%lf%lf",&P[ni].first,&P[ni].second);
+                scanf("%lf%lf",&X[ni].first,&X[ni].second);
             }
-            memcpy(X,P,sizeof(P));
-            memcpy(Y,P,sizeof(P));
+            memcpy(Y,X,sizeof(X));
             sort(X,X+N,CmpX);
             sort(Y,Y+N,CmpY);
             double ans=Solve(X,Y,N);
-            printf("%.2lf\n",sqrt(ans));
+            printf("%.2lf\n",sqrt(ans)/2);
         }
 
 	#ifdef L_JUDGE
