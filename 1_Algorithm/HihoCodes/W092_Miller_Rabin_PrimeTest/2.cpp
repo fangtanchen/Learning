@@ -76,7 +76,7 @@ int main(){
     cin>>T;
     while(T--){
          ll num;
-         scanf("%ld",&num);
+         scanf("%lld",&num);
          if(IsPrime(num)){
              printf("Yes\n");
          }else{
