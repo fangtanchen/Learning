@@ -4,6 +4,7 @@
 #include<vector>
 #include<algorithm>
 
+#define L_JUDGE
 
 #ifdef L_JUDGE
 #pragma warning(disable:4996)
@@ -17,7 +18,7 @@ int primeList[200000];
 int main(){
 	#ifdef L_JUDGE
 		freopen("in.txt","r",stdin);
-		freopen("out.txt","w",stdout);
+		//freopen("out.txt","w",stdout);
 	#endif
     int n=0;
     scanf("%d",&n);
