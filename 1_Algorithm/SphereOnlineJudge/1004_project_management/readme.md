@@ -1,0 +1,2 @@
+- to speed the program, 
+- 用重点和轻点来降低复杂度
