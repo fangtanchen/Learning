@@ -39,10 +39,10 @@ int main(){
             printf("1\n%d\n",num[0]);
             return 0;
         }
-        if((tmp>1)&&((tmp&0x1)==0))printf("3\n");
+        if((tmp>=1)&&((tmp&0x1)==0))printf("3\n");
         else printf("2\n");
         printf("%d",2*num[0]-num[1]);
-        if((tmp>1)&&((tmp&0x1)==0))printf(" %d",(num[0]+num[1])>>1);
+        if((tmp>=1)&&((tmp&0x1)==0))printf(" %d",(num[0]+num[1])>>1);
         printf(" %d\n",2*num[1]-num[0]);
         return 0;
     }
@@ -69,12 +69,15 @@ int main(){
        if(ans[0]==ans[1])nans--;
     }else if(2==cnt){
         if(ud[1]==2*ud[0]){
+            int tt=0;
             for(int i=0;i<imax;i++){
                 if(num[i+1]-num[i]==ud[1]){
                     ans[nans++]=((num[i+1]+num[i])>>1);
-                    break;
+                    tt++;
+                    if(tt>1)break;
                 }
             }
+            if(tt>1)nans=0;
         }
     }
     printf("%d\n",nans);
