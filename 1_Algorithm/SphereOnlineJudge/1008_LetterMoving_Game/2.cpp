@@ -28,11 +28,11 @@ int main(){
     memset(dp,0,sizeof(dp));
     int i,j;
     int ans=0;
-    for(i=1;S[i];i++){
-        for(j=1;T[j];j++){
+    for(i=1;T[i];i++){
+        for(j=1;S[j];j++){
             dp[i][j]=dp[i][j-1];
             if(S[j]!=T[i])continue;
-            dp[i][j]=max(dp[i][j],1+dp[i-1][j-1]);
+            dp[i][j]=max(dp[i][j],dp[i-1][j-1]+1);
             ans=max(ans,dp[i][j]);
         }
     }
