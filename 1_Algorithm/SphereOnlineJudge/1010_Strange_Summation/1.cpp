@@ -48,7 +48,7 @@ ll Cal(ll up){
                 int nt=digit[ci+1];
                 int kmax=(j==1?nt:1);
                 for(int k=0;k<=kmax;k++){
-                    int g=((j==1)&(k==kmax));
+                    int g=((j==1)&&(k==kmax));
                     int off=(k==1)&&(num[ci][j]&0x01);
                     num[ci+1][g]+=(num[ci][j]);
                     dp[ci+1][g]^=((dp[ci][j]<<1)^off);
@@ -81,6 +81,8 @@ int main(){
     for(int ti=1;ti<=T;ti++){
          scanf("%lld%lld",&P,&Q);
          int offset=Top(Q)-Top(P-1);
+         ll a=Call(Q);
+         ll b=Call(P-1);
          printf("Case %d: %lld\n",ti,Call(Q)^(Call(P-1)<<offset));
     }
 
