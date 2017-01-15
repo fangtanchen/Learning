@@ -41,13 +41,14 @@ ll Cal(ll up){
     memset(num,0,sizeof(num));
     dp[0][1]=num[0][1]=1;
 
-    for(int ci=0;ci<cntd;ci++){
+    int cmax=cntd-1;
+    for(int ci=0;ci<cmax;ci++){
         for(int j=0;j<2;j++){
             if(num[ci][j]){
                 int nt=digit[ci+1];
                 int kmax=(j==1?nt:1);
                 for(int k=0;k<=kmax;k++){
-                    int g=((j==1)&(k==nt));
+                    int g=((j==1)&(k==kmax));
                     int off=(k==1)&&(num[ci][j]&0x01);
                     num[ci+1][g]+=(num[ci][j]);
                     dp[ci+1][g]^=((dp[ci][j]<<1)^off);
@@ -60,7 +61,7 @@ ll Cal(ll up){
 
 ll Call(ll x){
     if(0==x)return 0;
-    ll q=1;
+    __int128 q=1;//ll q=1;//
     ll ret=0;
     while(q<x){
         ret=(ret<<1)^Cal(q);
