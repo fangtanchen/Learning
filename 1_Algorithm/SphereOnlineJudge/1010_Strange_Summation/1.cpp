@@ -19,16 +19,16 @@ typedef long long int ll;
 ll dp[70][2],num[70][2];
 ll P,Q;
 
-int Top(ll x){
+ll Top(ll x){// this part is easy to error
     if(0==x)return 0;
-    int ret=63;
-    for(;(x&(1<<ret))==0;ret--);
+    ll ret=63;
+    for(;((x>>ret)&0x01)==0;ret--);
     return ret;
 }
 
 ll Cal(ll up){
-    int digit[70];
-    int cntd=0;
+    ll digit[70];
+    ll cntd=0;
     ll tmp=up;
     while(tmp){
         if(tmp&0x1)digit[cntd]=1;
@@ -41,15 +41,15 @@ ll Cal(ll up){
     memset(num,0,sizeof(num));
     dp[0][1]=num[0][1]=1;
 
-    int cmax=cntd-1;
-    for(int ci=0;ci<cmax;ci++){
-        for(int j=0;j<2;j++){
+    ll cmax=cntd-1;
+    for(ll ci=0;ci<cmax;ci++){
+        for(ll j=0;j<2;j++){
             if(num[ci][j]){
-                int nt=digit[ci+1];
-                int kmax=(j==1?nt:1);
-                for(int k=0;k<=kmax;k++){
-                    int g=((j==1)&&(k==kmax));
-                    int off=(k==1)&&(num[ci][j]&0x01);
+                ll nt=digit[ci+1];
+                ll kmax=(j==1?nt:1);
+                for(ll k=0;k<=kmax;k++){
+                    ll g=((j==1)&&(k==kmax));
+                    ll off=(k==1)&&(num[ci][j]&0x01);
                     num[ci+1][g]+=(num[ci][j]);
                     dp[ci+1][g]^=((dp[ci][j]<<1)^off);
                 }
@@ -78,9 +78,9 @@ int main(){
 	#endif
     int T;
     scanf("%d",&T);
-    for(int ti=1;ti<=T;ti++){
+    for(ll ti=1;ti<=T;ti++){
          scanf("%lld%lld",&P,&Q);
-         int offset=Top(Q)-Top(P-1);
+         ll offset=Top(Q)-Top(P-1);
          ll a=Call(Q);
          ll b=Call(P-1);
          printf("Case %d: %lld\n",ti,Call(Q)^(Call(P-1)<<offset));

@@ -21,9 +21,18 @@ int main(){
 	#endif
         printf("1\n");
         long long int l,r;
+        long long unsigned int top=1;
+        top=top<<63;
         srand(time(NULL));
-        l=rand()%n*n+rand()%n;
-        r=rand()%n*n+rand()%n;
+        do{
+            l=rand()%n*n+rand()%n;
+        }while(l>=top);
+        do{
+            r=rand()%n*n+rand()%n;
+        }while(r>=top);
+
+        //l=rand()%n;
+        //r=rand()%n;
         if(l>r)swap(l,r);
         printf("%lld %lld\n",l,r);
 
