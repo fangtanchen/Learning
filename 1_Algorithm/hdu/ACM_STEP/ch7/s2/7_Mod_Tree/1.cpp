@@ -31,15 +31,15 @@ ll gcd(ll x,ll y){
     else return gcd(y,x%y);
 }
 
-ll cmp(Node x,Node y){
-    if(x.val<y.val)return 1;
-    else if((x.val==y.val)&&(x.idx<y.idx))return 1;
-    return -1;
+bool cmp(Node x,Node y){
+    if(x.val<y.val)return true;
+    else if((x.val==y.val)&&(x.idx<=y.idx))return true;
+    return false;
 }
 
 ll exgcd(ll A,ll B,ll &x,ll &y){
-    if(B==1){
-        x=0;y=1;
+    if(B==0){
+        x=1;y=0;
         return 0;
     }
     ll tx,ty;
@@ -92,7 +92,7 @@ ll BabyStep(ll K,ll P,ll N){
     ll D=1%B;
     ll c=0;
     ll g;
-    while((g=gcd(N,K))!=1){
+    while((g=gcd(B,A))!=1){
         if(C%g)return -1;
         c++;
         C/=g;
@@ -137,6 +137,10 @@ int main(){
     while(EOF!=scanf("%lld%lld%lld",&K,&P,&N)){
         if(N>=P){
              printf("Orz,I can’t find D!\n");
+             continue;
+        }
+        if(N==0){
+             printf("0\n");
              continue;
         }
         ll ans=BabyStep(K,P,N);
