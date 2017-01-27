@@ -24,23 +24,25 @@ int main(){
 		freopen("in.txt","r",stdin);
 //		freopen("out.txt","w",stdout);
 	#endif
-        while(scanf("%d%d%d",num+1,num+2,num+3),num[1]+num[2]+num[3]){
+        while(scanf("%d%d%d",num+1,num+2,num+3),num[1]||num[2]||num[3]){
             int sum=0;
             for(int i=1;i<=3;i++){
                 sum+=num[i]*fac[i];
             }
             int now=0,la=1;
-            for(int i=0,j=0;i<=num[1];i++,j+=fac[1])
+            for(int i=0;i<=num[1];i++)
                 dp[now][i]=1;
+            int jmax=num[1];
             for(int i=2;i<=3;i++){
                 swap(now,la);
                 memset(dp[now],0,sizeof(dp[now]));
-                for(int j=0;j<=sum;j++){
+                for(int j=0;j<=jmax;j++){
                     if(!dp[la][j])continue;
                     for(int k=0,v=0;k<=num[i];k++,v+=fac[i]){
                          dp[now][j+v]+=dp[la][j];
                     }
                 }
+                jmax+=num[i]*fac[i];
             }
             int ans=1;
             for(;dp[now][ans];ans++)
