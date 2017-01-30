@@ -12,6 +12,8 @@
 #endif
 
 using namespace std;
+const int MAXN=1005;
+
 
 int main(){
 	#ifdef L_JUDGE
@@ -22,7 +24,7 @@ int main(){
 	#ifdef L_JUDGE
 		fclose(stdin);
 		fclose(stdout);
-		system("out.txt");
+//		system("out.txt");
 	#endif
 
 	return 0;
