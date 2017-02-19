@@ -25,6 +25,7 @@ int main(){
 //		freopen("out.txt","w",stdout);
 	#endif
     scanf("%lld%lld%lld",&ts,&tf,&ser);
+    tf=(tf-ts)/ser*ser+ts;
     scanf("%d",&N);
     for(int i=1;i<=N;i++){
          scanf("%d",a+i);
@@ -34,8 +35,10 @@ int main(){
     int ni=1;
     for(;a[ni]<ts;ni++){
         ftm+=t;
+        if(ftm>tf)break;
         if(a[ni]!=a[ni+1]){
-            LL tmp=
+            LL tmp=ftm-a[ni];
+            if(tmp>ans)ans=tmp;
         }
     }
 
