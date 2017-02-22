@@ -1,0 +1,10 @@
+3 6
+3 2 8
+heart
+earth
+art
+3 6
+3 2 1
+heart
+earth
+art
