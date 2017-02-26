@@ -17,7 +17,7 @@ using namespace std;
 typedef pair<int,int> pii;
 const int MAXN=14;
 const int INF=0x1f1f1f1f;
-const int dir[4][2]={-1,-1,-1,1,1,-1,1,1};
+const int dir[4][2]={-1,0,1,0,0,-1,0,1};
 
 char G[14][14];
 bool vis[14][14];
@@ -25,6 +25,7 @@ int color[14][14],numcolor;
 int T,N,M;
 
 int BFS(int x,int y){
+    memset(vis,false,sizeof(vis));
     queue<pii > Q;
     int id=x*M+y;
     Q.push(make_pair(id,0));
@@ -39,6 +40,7 @@ int BFS(int x,int y){
              int tmpri=ri+dir[di][0];
              int tmpci=ci+dir[di][1];
              if((tmpri>=0)&&(tmpri<N)&&(tmpci>=0)&&(tmpci<M)
+                     &&(!vis[tmpri][tmpci])
                      &&(G[tmpri][tmpci]=='#')){
                  Q.push(make_pair(tmpri*M+tmpci,now.second+1));
              }
@@ -53,12 +55,12 @@ int TagColor(int ri,int ci,int c){
     while(!Q.empty()){
         pii now=Q.front();
         Q.pop();
-        color[ri][ci]=c;
+        color[now.first][now.second]=c;
         for(int di=0;di<4;di++){
-             int tmpri=ri+dir[di][0];
-             int tmpci=ci+dir[di][1];
+             int tmpri=now.first+dir[di][0];
+             int tmpci=now.second+dir[di][1];
              if((tmpri>=0)&&(tmpri<N)&&(tmpci>=0)&&(tmpci<M)
-                     &&(color[tmpri][tmpci]!=-1)&&(G[tmpri][tmpci]=='#')){
+                     &&(color[tmpri][tmpci]==-1)&&(G[tmpri][tmpci]=='#')){
                  Q.push(make_pair(tmpri,tmpci));
              }
         }
@@ -78,7 +80,6 @@ int main(){
          for(int ri=0;ri<N;ri++){
              scanf("%s",G[ri]);
          }
-         int ans=INF;
          numcolor=0;
          memset(color,-1,sizeof(color));
          for(int ri=0;ri<N;ri++){
@@ -93,7 +94,7 @@ int main(){
               printf("-1\n");
               continue;
          }
-         int ans[3]={0,0,0};
+         int ans[3]={INF,INF,INF};
          for(int ri=0;ri<N;ri++){
              for(int ci=0;ci<M;ci++){
                  if(G[ri][ci]!='#')continue;
