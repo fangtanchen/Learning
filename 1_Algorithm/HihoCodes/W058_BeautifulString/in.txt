@@ -1,0 +1,17 @@
+8
+3
+abc
+3
+cde
+6
+aabbcc
+9
+aaabbbccc
+3
+abd
+3
+cba
+5
+aabbc
+3
+zab
