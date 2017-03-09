@@ -28,7 +28,7 @@ bool Cmp1(int x,int y){
 
 bool Cmp2(int x,int y){
     return (pt[x].first-pt[keypp].first)*(pt[y].second-pt[keypp].second)
-        -(pt[x].second-pt[keypp].second)*(pt[y].first-pt[keypp].first)>0;
+        -(pt[x].second-pt[keypp].second)*(pt[y].first-pt[keypp].first)<0;
 }
 
 
