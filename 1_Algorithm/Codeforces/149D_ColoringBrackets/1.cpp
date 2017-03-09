@@ -36,21 +36,21 @@ void DFS(int l,int r){
         DFS(tl,R[tl]);
         tl=R[tl]+1;
     }
-    for(int i=0;i<10;i++){
+    for(int i=0;i<9;i++){
         kk[di][i]=dp[R[l+1]][i];
     }
     tl=R[l+1]+1;
     while(tl<r){
         swap(si,di);
         memset(kk[di],0,sizeof(kk[di]));
-        for(int i=0;i<10;i++){
+        for(int i=0;i<9;i++){
             int x1=i/3,y1=i%3;
             //if((x1==0&&(y1==0))
             //        ||(x1!=0&&(y1!=0)))continue;
-            for(int j=0;j<10;j++){
+            for(int j=0;j<9;j++){
                 int x2=j/3,y2=j%3;
-                if((x2==0&&(y2==0))
-                        ||(x2!=0&&(y2!=0)))continue;
+                //if((x2==0&&(y2==0))
+                //        ||(x2!=0&&(y2!=0)))continue;
                 if((y1!=0)&&(y1==x2))continue;
                 int tmp=3*x1+y2;
                 kk[di][tmp]=(kk[di][tmp]+kk[si][i]*dp[R[tl]][j])%MODU;
@@ -58,12 +58,12 @@ void DFS(int l,int r){
         }
         tl=R[tl]+1;
     }
-    for(int i=0;i<10;i++){
+    for(int i=0;i<9;i++){
         int x1=i/3,y1=i%3;
         if((x1==0&&(y1==0))
                 ||(x1!=0&&(y1!=0)))continue;
 
-        for(int j=0;j<10;j++){
+        for(int j=0;j<9;j++){
             int x2=j/3,y2=j%3;
             if((y1!=0)&&(y1==y2))continue;
             if((x1!=0)&&(x1==x2))continue;
@@ -98,10 +98,34 @@ int main(){
         DFS(t,R[t]);
         t=R[t]+1;
     }
+    LL kk[2][20]={0};
+    int si=0,di=1;
+    for(int i=0;i<9;i++)
+        kk[di][i]=dp[R[0]][i];
+    int tl=R[0]+1;
+    while(tl<slen){
+        swap(si,di);
+        memset(kk[di],0,sizeof(kk[di]));
+        for(int i=0;i<9;i++){
+            int x1=i/3,y1=i%3;
+            //if((x1==0&&(y1==0))
+            //        ||(x1!=0&&(y1!=0)))continue;
+            for(int j=0;j<9;j++){
+                int x2=j/3,y2=j%3;
+                //if((x2==0&&(y2==0))
+                //        ||(x2!=0&&(y2!=0)))continue;
+                if((y1!=0)&&(y1==x2))continue;
+                int tmp=3*x1+y2;
+                kk[di][tmp]=(kk[di][tmp]+kk[si][i]*dp[R[tl]][j])%MODU;
+            }
+        }
+        tl=R[tl]+1;
+    }
     LL ans=0;
     for(int i=0;i<9;i++){
-        ans=(ans+dp[slen-1][i])%MODU;
+        ans=(ans+kk[di][i])%MODU;
     }
+
     printf("%lld\n",ans);
 
 
