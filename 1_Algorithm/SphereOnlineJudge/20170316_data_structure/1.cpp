@@ -3,6 +3,7 @@
 #include<cstring>
 //#include<vector>
 #include<algorithm>
+#include<cmath>
 
 #define U_DEBUG
 #define L_JUDGE
@@ -44,6 +45,7 @@ inline LL read(){
      LL x=0;
      while(ch<='9'&&ch>='0'){
           x=x*10+ch-'0';
+          ch=getchar();
      }
      return x;
 }
@@ -57,7 +59,7 @@ void PushUp(int now){
 void PushDown(int x){
     if(tr[x].cov>0){
         int mid=(tr[x].l+tr[x].r)>>1;
-        int sl=mid-tr[x].l+1,sr=tr[x].r-mid;
+        LL sl=mid-tr[x].l+1,sr=tr[x].r-mid;
         tr[ls(x)].sma=tr[rs(x)].sma=tr[ls(x)].big=tr[rs(x)].big
             =tr[ls(x)].cov=tr[rs(x)].cov=tr[x].cov;
         tr[ls(x)].sum=sl*tr[x].cov;
@@ -66,15 +68,15 @@ void PushDown(int x){
     }
     if(tr[x].tag!=0){
         int mid=(tr[x].l+tr[x].r)>>1;
-        int sl=mid-tr[x].l+1,sr=tr[x].r-mid;
+        LL sl=mid-tr[x].l+1,sr=tr[x].r-mid;
         tr[ls(x)].tag+=tr[x].tag;
         tr[ls(x)].sma+=tr[x].tag;
         tr[ls(x)].big+=tr[x].tag;
         tr[ls(x)].sum+=sl*tr[x].tag;
         tr[rs(x)].tag+=tr[x].tag;
-        tr[rs(x)].sma+=tr[x].sma;
-        tr[rs(x)].big+=tr[x].big;
-        tr[rs(X)].sum+=sr*tr[x].tag;
+        tr[rs(x)].sma+=tr[x].tag;
+        tr[rs(x)].big+=tr[x].tag;
+        tr[rs(x)].sum+=sr*tr[x].tag;
         tr[x].tag=0;
     }
 }
@@ -116,26 +118,78 @@ void Add(int now,int l,int r,LL num){
     PushUp(now);
 }
 
+void Upd(int now,int l,int r){
+    if(!tr[now].judge(l,r)){
+        int mid=(tr[now].l+tr[now].r)>>1;
+        PushDown(now);
+        if(l<=mid)Upd(ls(now),l,min(r,mid));
+        if(r>mid)Upd(rs(now),max(mid+1,l),r);
+        PushUp(now);
+        return;
+    }
+    if(tr[now].big==1){
+        return;
+    }
+    if(tr[now].l==tr[now].r){
+        tr[now].sum=tr[now].sma=tr[now].big=floor(sqrt(tr[now].big));
+        return;
+    }
+    if(tr[now].big==tr[now].sma){
+        LL tmp=tr[now].big;
+        tr[now].big=tr[now].sma=floor(sqrt(tr[now].big));
+        tr[now].sum=(1ll)*(r-l+1)*tr[now].big;
+        tr[now].tag-=(tmp-tr[now].big);
+        return;
+    }
+    if(tr[now].big==tr[now].sma+1){
+         LL tb=tr[now].big,ts=tr[now].sma;
+         LL totb=tr[now].sum-(1ll)*(r-l+1)*(ts);
+         LL tots=r-l+1-totb;
+         tr[now].big=floor(sqrt(tr[now].big));
+         tr[now].sma=floor(sqrt(tr[now].sma));
+         if(tr[now].big==tr[now].sma){
+             tr[now].cov=tr[now].big;
+             tr[now].sum=(1ll)*(r-l+1)*tr[now].big;
+             tr[now].tag=0;
+             return;
+         }else{
+              tr[now].sum=(1ll)*totb*tr[now].big+tots*tr[now].sma;
+              tr[now].tag+=(tr[now].big-tb);
+              return;
+         }
+    }
+    PushDown(now);
+    int mid=(tr[now].l+tr[now].r)/2;
+    if(l<=mid)Upd(ls(now),l,min(r,mid));
+    if(r>mid)Upd(rs(now),max(l,mid+1),r);
+    PushUp(now);
+    return;
+}
+
 
 int main(){
 	#ifdef L_JUDGE
 		freopen("in.txt","r",stdin);
 //		freopen("out.txt","w",stdout);
 	#endif
-    N=read();
-    M=read();
-    Build(1,1,N);
-    while(M--){
-         int t,l,r;
-         t=read();l=read();r=read();
-         if(t==1){
-             LL x=read();
-             Add(1,l,r,x);
-         }else if(2==t){
-              Upd(1,l,r);
-         }else{
-             printf("%lld\n",CalSum(1,l,r));
-         }
+    int T=read();
+    while(T--){
+        memset(tr,0,sizeof(tr));
+        N=read();
+        M=read();
+        Build(1,1,N);
+        while(M--){
+            int t,l,r;
+            t=read();l=read();r=read();
+            if(t==1){
+                LL x=read();
+                Add(1,l,r,x);
+            }else if(2==t){
+                Upd(1,l,r);
+            }else{
+                printf("%lld\n",CalSum(1,l,r));
+            }
+        }
     }
 
 	#ifdef L_JUDGE
