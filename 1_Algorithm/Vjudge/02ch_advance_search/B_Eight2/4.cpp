@@ -20,7 +20,7 @@ const int dir[4][2]={1,0,0,-1,0,1,-1,0};
 
 
 int father[9][MAXN];
-char move[9][MAXN];
+char move1[9][MAXN];
 bool vis[9][MAXN];
 
 
@@ -70,11 +70,11 @@ queue<Status> Q;
 void BFS(Status st,int pi){
     while(!Q.empty())Q.pop();
     memset(vis[pi],false,sizeof(vis[pi]));
-    memset(move[pi],-1,sizeof(move[pi]));
+    memset(move1[pi],-1,sizeof(move1[pi]));
     memset(father[pi],-1,sizeof(father[pi]));
     Q.push(st);
     vis[pi][st.status]=true;
-    move[pi][st.status]=-1;
+    move1[pi][st.status]=-1;
     father[pi][st.status]=-1;
     while(!Q.empty()){
         Status u=Q.front();
@@ -91,7 +91,7 @@ void BFS(Status st,int pi){
              v.status=Cantor(v.eight);
              if(vis[pi][v.status])continue;
              vis[pi][v.status]=true;
-             move[pi][v.status]=di;
+             move1[pi][v.status]=di;
              father[pi][v.status]=u.status;
              Q.push(v);
         }
@@ -127,7 +127,7 @@ int main(){
         scanf("%s",str);
         for(int i=0;i<9;i++){
             if(str[i]!='X'){
-                str[i]=mp[str[i]-'0'];
+                str[i]=mp[str[i]-'0']+'0';
             }
         }
         ed=Status(str);
@@ -135,7 +135,7 @@ int main(){
         int anslen=0;
         int k=ed.status;
         while(father[pi][k]!=-1){
-            switch(move[pi][k]){
+            switch(move1[pi][k]){
                 case 0:
                     ans[anslen++]='d';
                     break;
@@ -151,6 +151,8 @@ int main(){
             }
              k=father[pi][k];
         }
+        for(int i=0,j=anslen-1;i<j;i++,j--)
+            swap(ans[i],ans[j]);
         ans[anslen]=0;
         printf("Case %d: %d\n%s\n",ti,anslen,ans);
     }
