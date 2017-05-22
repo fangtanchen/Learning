@@ -1,4 +1,12 @@
-3
+7
+a
+ab
+abc
+abba
+a
+aaa
+aa
+aaaaaaa
 abababa
 aaaabaa
 acacdas
