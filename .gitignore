@@ -20,3 +20,5 @@
 *.layout
 
 
+#ignore *venv files
+0_PatternRecognition/TensorFlow/venv/*
