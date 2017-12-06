@@ -1,0 +1,30 @@
+require 'nn'
+
+-- construct the network
+net=nn.Sequential()
+net:add(nn.SpatialConvolution(1,6,5,5))
+net:add(nn.ReLU())
+net:add(nn.SpatialMaxPooling(2,2,2,2))
+net:add(nn.SpatialConvolution(6,16,5,5))
+net:add(nn.ReLU())
+net:add(nn.SpatialMaxPooling(2,2,2,2))
+net:add(nn.View(16*5*5))
+net:add(nn.Linear(16*5*5,120))
+net:add(nn.ReLU())
+net:add(nn.Linear(120,84))
+net:add(nn.ReLU())
+net:add(nn.Linear(84,10))
+net:add(nn.LogSoftMax())
+
+print('LeNet5\n' .. net:__tostring())
+
+input=torch.rand(1,32,32)
+print('input\n')
+print(input)
+output=net:forward(input)
+print('output\n')
+print(output)
+net:zeroGradParameters()
+gradInput=net:backward(input,torch.rand(10))
+print('gradInput\n')
+print(#gradInput)

@@ -23,3 +23,4 @@
 #ignore *venv files
 0_PatternRecognition/TensorFlow/venv/*
 0_PatternRecognition/TensorFlow/stanford-tensorflow-tutorials/*
+0_PatternRecognition/Torch7/ch1/cifar1*
