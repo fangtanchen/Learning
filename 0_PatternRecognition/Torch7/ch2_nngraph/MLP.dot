@@ -1,0 +1,47 @@
+digraph G {
+	graph [bb="0,0,256,998"];
+	node [label="\N",
+		shape=oval
+	];
+	n1	 [height=1.6303,
+		label="Node1\nmodule = nn.Linear(10 -> 1)\lgradOutput = {Tensor[1]}\linput = {Tensor[10]}\lreverseMap = {}",
+		pos="128,191",
+		tooltip="[mlp.lua]:8_",
+		width=3.4507];
+	n2	 [height=1.3356,
+		label="Node2\ngradOutput = {Tensor[1]}\linput = {Tensor[1]}\lreverseMap = {}",
+		pos="128,48",
+		tooltip="[[C]]:-1_",
+		width=3.1506];
+	n1 -> n2	 [pos="e,128,96.121 128,132.24 128,123.7 128,114.9 128,106.36"];
+	n3	 [height=1.6303,
+		label="Node3\nmodule = nn.Tanh\lgradOutput = {Tensor[10]}\linput = {Tensor[10]}\lreverseMap = {}",
+		pos="128,345",
+		tooltip="[mlp.lua]:8_",
+		width=3.279];
+	n3 -> n1	 [pos="e,128,249.74 128,286.1 128,277.54 128,268.65 128,259.91"];
+	n4	 [height=1.6303,
+		label="Node4\nmodule = nn.Linear(10 -> 10)\lgradOutput = {Tensor[10]}\linput = {Tensor[10]}\lreverseMap = {}",
+		pos="128,499",
+		tooltip="[mlp.lua]:8_",
+		width=3.5652];
+	n4 -> n3	 [pos="e,128,403.74 128,440.1 128,431.54 128,422.65 128,413.91"];
+	n5	 [height=1.6303,
+		label="Node5\nmodule = nn.Tanh\lgradOutput = {Tensor[10]}\linput = {Tensor[10]}\lreverseMap = {}",
+		pos="128,653",
+		tooltip="[mlp.lua]:8_",
+		width=3.279];
+	n5 -> n4	 [pos="e,128,557.74 128,594.1 128,585.54 128,576.65 128,567.91"];
+	n6	 [height=1.6303,
+		label="Node6\nmodule = nn.Linear(20 -> 10)\lgradOutput = {Tensor[10]}\linput = {Tensor[20]}\lreverseMap = {}",
+		pos="128,807",
+		tooltip="[mlp.lua]:7_",
+		width=3.5652];
+	n6 -> n5	 [pos="e,128,711.74 128,748.1 128,739.54 128,730.65 128,721.91"];
+	n7	 [height=1.3356,
+		label="Node7\ngradOutput = {Tensor[20]}\linput = {Tensor[20]}\lreverseMap = {}",
+		pos="128,950",
+		tooltip="[[C]]:-1_",
+		width=3.279];
+	n7 -> n6	 [pos="e,128,865.74 128,901.66 128,893.38 128,884.62 128,875.91"];
+}
